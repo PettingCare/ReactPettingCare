@@ -17,7 +17,6 @@ const MenuPrincipal = () => {
   return (
     <Router>
       <Routes>
-
         <Route element = {<PrivateRoutes/>}>
           {/* Rutas privadas */}
           <Route path="/inicio" element={<Inicio/>} />
@@ -26,14 +25,11 @@ const MenuPrincipal = () => {
           <Route path="/citas" element={<Citas/>} />
           <Route path="/CrearMascota" element={<CrearMascota/>} />
           <Route path="/MiPerfil" element={<MiPerfil/>} />
-
         </Route>
         {/* Unica ruta publica (hasta que tengamos /Home con la presentacion) */}
         <Route path="/login" element = {<LoginRegistro/>}/>
-
       </Routes>
     </Router>
-
   );
 };
 

@@ -9,7 +9,7 @@ import logo from "../Assets/PC_logo.png"
 import {  useNavigate } from 'react-router-dom';
 import Alert from '@mui/material/Alert';
 // URL base del backend
-const BASE_URL = 'http://localhost:8000';
+const BASE_URL = 'http://localhost:3000';
 
 const LoginRegistro = () => {
 
@@ -32,8 +32,6 @@ const LoginRegistro = () => {
     setShowPassword(!passwordVisible);
   }
 
-
-
   useEffect(() => {
     // Verificar si hay un token guardado al cargar la página
     const storedToken = localStorage.getItem("token");
@@ -44,7 +42,6 @@ const LoginRegistro = () => {
       console.log('Sesión NO iniciada.');
     }
   }, []);
-
 
   // Fetch Login
   const loginEP = async (event) => {
