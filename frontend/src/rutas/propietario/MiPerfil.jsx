@@ -7,9 +7,8 @@ import Select from '@mui/material/Select';
 import Sidenav from '../../Componentes/Sidenav/Sidenav';
 import Navbar from '../../Componentes/Navbar';
 
-export default function MiPerfil() {
-
-
+export default function MiPerfil() 
+{
   const BASE_URL = 'http://localhost:8000';
   const [especies, setEspecies] = useState([]);
 
@@ -23,9 +22,9 @@ export default function MiPerfil() {
           method: 'GET',
           headers: {
             "Authorization": `Bearer ${accessToken}`
-          }, 
+          },
         });
-        
+
         if (!response.ok) {
           throw new Error('No se pudo obtener informacion');
         }

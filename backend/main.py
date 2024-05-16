@@ -11,7 +11,6 @@ import mysql.connector
 from datetime import datetime
 from decouple import config
 
-
 db= mysql.connector.connect(
     host=config("host"),
     user=config("user"),
@@ -28,7 +27,6 @@ app = FastAPI(
         version="0.1"
 )
 
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -37,7 +35,6 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-
 # Endpoint para obtener todos los elementos
 @app.get("/")
 async def inicio():
@@ -45,7 +42,6 @@ async def inicio():
 
 @app.get("/usuarios/")
 async def leer_usuarios():
-
     mycursor = db.cursor()
     mycursor.execute("SELECT * FROM Usuario")
     items = mycursor.fetchall()
@@ -61,7 +57,7 @@ async def registro_usuario(usuario: usuario_registroSchema= Body(...)):
     try:
         # Hash The Password DE MOMENTO NO, HAY QUE ARREGLAR LA BBDD
         hashed_pass = hash_pass(usuario.password)
-        usuario.password = hashed_pass 
+        usuario.password = hashed_pass
         mycursor.execute("SELECT username FROM Usuario WHERE username = %s", (usuario.username,))
         usuario_existente = mycursor.fetchone()
         if usuario_existente:
@@ -77,13 +73,13 @@ async def registro_usuario(usuario: usuario_registroSchema= Body(...)):
                 INSERT INTO Propietario (username)
                 VALUES (%s)
                 """, (usuario.username,))
-                
+
             db.commit()
-            
+
             # Ahora, para obtener los valores de nombre y email después de la inserción:
             mycursor.execute("SELECT nombre, email FROM Usuario WHERE email = %s", (usuario.email,))
             registro_exitoso = mycursor.fetchone()
-            
+
             return {"message": "Registro exitoso", "data": {"nombre": registro_exitoso[0], "email": registro_exitoso[1]}}
     finally:
         # Leer todos los resultados antes de cerrar el cursor
@@ -107,15 +103,13 @@ async def login_usuario(usuario: usuario_loginSchema):
 
     # Extrae el hash almacenado en la base de datos
     stored_hash = user_data[2]
-    
+
     if not verifica_password( usuario.password, stored_hash):
         raise HTTPException(status_code=401, detail="Contraseña no coincide")
 
-    
     # Si las credenciales son válidas, emite un token JWT
     token = signJWT(usuario.username)
     return {"token": token}
-    
 
 
 @app.post("/usuarios/logout")
@@ -126,16 +120,13 @@ async def logout_usuario(token: str = Depends(JWTBearer())):
 
     # Invalidar el token
     invalidate_token(token)
-    
     return {"message": "Sesión cerrada exitosamente"}
-
 
 
 @app.post("/pr_autenticar")
 async def prueba_bearer(token: str = Depends(JWTBearer())):
     if is_token_invalid(token):
         raise HTTPException(status_code=401, detail="El token ya está invalidado")
-
     return {
         "data": "estas dentro"
     }
@@ -153,29 +144,28 @@ async def obtener_perfil(token: str = Depends(JWTBearer())):
     mycursor = db.cursor()
 
     mycursor.execute("""
-            SELECT nombre, email 
+            SELECT nombre, email
             FROM Usuario
             WHERE username = %s
             """, (usuario_username,))
     perfil = mycursor.fetchone()
-    
+
     # Si no se encuentra el perfil, devuelve un error
     if perfil is None:
         mycursor.close()
         raise HTTPException(status_code=404, detail="Perfil no encontrado")
-    
+
     mycursor.close()
     # Devuelve la información del perfil en formato JSON
     return JSONResponse(content={"nombre": perfil[0], "email": perfil[1]})
 
-# Endpoint para registrar una mascota
 
+# Endpoint para registrar una mascota
 @app.post("/mascotas/registro")
 async def registro_mascota(token: str = Depends(JWTBearer()),mascota: mascota_registroSchema= Body(...)):
     print(token)
     # Decodificar el token para obtener el username del usuario
     usuario_username = decodeJWT(token)
-
 
     # Cadena de fecha y hora recibida
     fecha_hora_str = mascota.fechaNacimiento
@@ -190,18 +180,16 @@ async def registro_mascota(token: str = Depends(JWTBearer()),mascota: mascota_re
     # Consulta a la base de datos para obtener el perfil del usuario
     mycursor = db.cursor()
 
-
     mycursor.execute("""
         INSERT INTO Mascota (nombre, nacimiento, especie, propietario)
                     VALUES (%s, %s, %s, %s)
 
                     """, (mascota.nombre,mascota.fechaNacimiento,mascota.especie, usuario_username))
-
     db.commit()
                     # Ahora, para obtener los valores de nombre y email después de la inserción:
     mycursor.execute("SELECT nombre FROM Mascota WHERE nombre = %s and propietario = %s", (mascota.nombre,usuario_username))
     registro_exitoso = mycursor.fetchall()
-                
+
     mycursor.close()
 
     if registro_exitoso:
@@ -213,10 +201,7 @@ async def registro_mascota(token: str = Depends(JWTBearer()),mascota: mascota_re
         return {"message": "No se ha podido registrar"}
 
 
-
-
 # Endpoint para ver mis mascotas
-
 @app.get("/Mascotas/misMascotas/")
 async def obtener_mascotas(token: str = Depends(JWTBearer())):
 
@@ -225,49 +210,48 @@ async def obtener_mascotas(token: str = Depends(JWTBearer())):
 
     # Decodificar el token para obtener el username del usuario
     usuario_username = decodeJWT(token)
-    
+
     # Consulta a la base de datos para obtener el perfil del usuario
     mycursor = db.cursor()
 
     mycursor.execute("""
-            SELECT nombre, nacimiento, especie 
+            SELECT nombre, nacimiento, especie
             FROM Mascota
             WHERE propietario = %s
             """, (usuario_username,))
     perfil = mycursor.fetchall()
-    
+
     # Si no se encuentra el perfil, devuelve un error
     # if perfil is None:
     if not perfil:
         raise HTTPException(status_code=404, detail=f"No hay mascotas asociadas al username {usuario_username}")
-    
+
     for row in perfil:
         print(row)
     mycursor.close()
     return perfil
     # Devuelve la información del perfil en formato JSON
-   # return JSONResponse(content={"nombre": perfil[0], "email": perfil[1]})
-   #FALTA PASARLO COMO UN JSON ?
+    # return JSONResponse(content={"nombre": perfil[0], "email": perfil[1]})
+    # FALTA PASARLO COMO UN JSON ?
 
 
 @app.get("/Especies/")
 async def obtener_especies():
-
     # Consulta a la base de datos para obtener las especies
     mycursor = db.cursor()
 
     mycursor.execute("""
-            SELECT * 
+            SELECT *
             FROM Especie
             """)
     especies = mycursor.fetchall()
-    
+
     # Si no se encuentra especies, devuelve un error
     # if perfil is None:
     if not especies:
         mycursor.close()
         raise HTTPException(status_code=404, detail=f"No hay especies")
-    
+
     for row in especies:
         print(row)
     mycursor.close()

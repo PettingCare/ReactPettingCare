@@ -23,7 +23,6 @@ class usuario_registroSchema(BaseModel):
                 "password": "password",
                 "username": "Juan Cifuentes",
                 "telefono": "123456789",
-
             }
         }
 
@@ -39,8 +38,6 @@ class usuario_loginSchema(BaseModel):
             }
         }
 
-
-
 class mascota_registroSchema(BaseModel):
     nombre: str = Field(...)
     fechaNacimiento: str = Field(...)
@@ -51,10 +48,8 @@ class mascota_registroSchema(BaseModel):
                 "nombre": "musolini",
                 "fechaNacimiento": "2024-05-13T22:00:00.000Z",
                 "especie": "especie"
-
             }
-        }        
-
+        }
 
 class centro_registroSchema(BaseModel):
     nombre: str = Field(...)
@@ -64,6 +59,5 @@ class centro_registroSchema(BaseModel):
             "example": {
                 "nombre": "clinica",
                 "direccion": "calle 24 1-1"
-
             }
-        }        
+        }

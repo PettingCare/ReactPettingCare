@@ -60,7 +60,7 @@ export default function Citas() {
 
           </Grid>
         </Grid>
-      {/* Grid 1, con 2 cards */} 
+      {/* Grid 1, con 2 cards */}
         <Grid container spacing={2}>
           <Grid xs={8}>
             <Card sx={{ maxWidth: 345 }}>

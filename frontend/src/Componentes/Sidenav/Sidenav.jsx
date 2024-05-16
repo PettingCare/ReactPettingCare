@@ -121,7 +121,7 @@ export default function Sidenav() {
                   mr: open ? 3 : "auto",
                   justifyContent: "center",
                   }}>
-               <FaHome/>      
+               <FaHome/>
               </ListItemIcon>
               <ListItemText primary="Inicio" sx={{opacity: open ? 1 : 0}}/>
             </ListItemButton>
@@ -169,7 +169,7 @@ export default function Sidenav() {
                   mr: open ? 3 : "auto",
                   justifyContent: "center",
                   }}>
-               <MdDateRange/>      
+               <MdDateRange/>
               </ListItemIcon>
               <ListItemText primary="Citas" sx={{opacity: open ? 1 : 0}}/>
             </ListItemButton>
@@ -189,7 +189,7 @@ export default function Sidenav() {
                   mr: open ? 3 : "auto",
                   justifyContent: "center",
                   }}>
-               <BiSolidHelpCircle/>      
+               <BiSolidHelpCircle/>
               </ListItemIcon>
               <ListItemText primary="Ayuda" sx={{opacity: open ? 1 : 0}}/>
             </ListItemButton>

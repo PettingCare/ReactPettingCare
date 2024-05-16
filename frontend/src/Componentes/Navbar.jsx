@@ -56,8 +56,8 @@ export default function Navbar() {
 
 
   const navigate = useNavigate(); // Obtiene el objeto history
-  
-  
+
+
   // Fetch logout
   const logoutEP = async () => {
     localStorage.clear();

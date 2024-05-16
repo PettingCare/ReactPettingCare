@@ -6,14 +6,14 @@ const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
     { field: 'nombreMascota', headerName: 'Mascota', width: 130 },
     { field: 'Fecha', headerName: 'Fecha', width: 100 },
-    
+
     {
       field: 'acciones',
       headerName: 'Acciones',
       width: 100,
       renderCell: (params) => (
         <Switch
-          checked={params.row.estado === 'Activo'} 
+          checked={params.row.estado === 'Activo'}
           onChange={(event) => {
             // Aquí puedes manejar la lógica para cambiar el estado
             console.log('Switch changed:', event.target.checked);

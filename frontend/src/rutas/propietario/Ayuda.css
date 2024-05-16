@@ -2,13 +2,12 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-  } */
-  
-  .Ayuda{
-      justify-content: center;
-      align-items: center;
-      display: flex;
-      background-color: whitesmoke;
-      min-height: 100vh;
-  
-  }
+} */
+
+.Ayuda{
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    background-color: whitesmoke;
+    min-height: 100vh;
+}

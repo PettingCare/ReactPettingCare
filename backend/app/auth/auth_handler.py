@@ -4,16 +4,13 @@ from typing import Dict
 import jwt
 from decouple import config
 
-
 JWT_SECRET = config("clave")
 JWT_ALGORITHM = config("algoritmo")
-
 
 def token_response(token: str):
     return {
         "access_token": token
     }
-
 
 def signJWT(user_id: str) -> Dict[str, str]:
     payload = {
@@ -30,7 +27,6 @@ def signJWT(user_id: str) -> Dict[str, str]:
 #         return decoded_token if decoded_token["expires"] >= time.time() else None
 #     except:
 #         return {}
-    
 
 def decodeJWT(token: str) -> dict:
     try:

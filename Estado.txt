@@ -10,8 +10,6 @@ BACKEND:
 FRONTEND:
 	·RUTA (/), es el "Home" de nuestra pagina.
 	·Fetch tabla que llame a get "/Mascotas/misMascotas/" con hiperlinks para ver una mascota en especifico "/Mascotas/misMascota{id}/"
-	
-
 
 Clinica falta el backend y el frontend y saber como redireccionar el inicio de sesion dependiendo del rol (propietario o Clinica):
 	·formulario y endpoint crear centro

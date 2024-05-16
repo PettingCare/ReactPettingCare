@@ -3,12 +3,10 @@
 	·Abrir el archivo y crear un entorno (python -m venv env)
 	·Activar el entorno (HACERLO CADA VEZ QUE ABRIMOS EL PROYECTO) --> env\Scripts\activate
 	.Instalar las dependencias del proyecto: pip install -r requirements.txt
-  
+
 	Ejecutar el Backend:
 	uvicorn main:app --reload
 
 2 FRONTEND:
 	.descargar node js
 	· Abrir el proyecto y descargar las dependencias --> npm install
-
-

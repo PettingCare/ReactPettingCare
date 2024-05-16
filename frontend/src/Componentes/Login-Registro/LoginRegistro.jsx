@@ -84,7 +84,7 @@ const LoginRegistro = () => {
     }
   };
 
-  // Fetch registro 
+  // Fetch registro
   const registrarseEP = async (event) => {
     event.preventDefault();
     // Obtener los valores de los campos del formulario
@@ -189,7 +189,7 @@ const LoginRegistro = () => {
               <FaUserAstronaut  className='icono'/>
             </div>
 
-            <div className="input-box">            
+            <div className="input-box">
               <input
                 value={telefono}
                 type="number"
@@ -204,7 +204,7 @@ const LoginRegistro = () => {
                 required
               />
               <FaPhoneAlt  className='icono'/>
-              <h6> 
+              <h6>
                 Tu numero es:
                 {isError ? "Numero incorrecto" : "+34 " + telefono}
               </h6>
