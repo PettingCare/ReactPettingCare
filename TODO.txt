@@ -1,0 +1,32 @@
+Login:
+    1. Poder diferenciar el tipo de usuario.
+
+Citas:
+    Endpoints:
+        1. /citas: Obtiene todas las citas del usuario.
+        2. /centros: Obtiene una lista completa de centros para que el usuario pueda registrar una cita.
+        3. /registraCita: Registra la cita de una mascota.
+    Frontend:
+        1. Formulario de crear citas.
+        2. Formulario de vista de citas (es una tabla).
+
+Mascotas:
+    Frontend:
+        1. Tabla de mascotas de un usuario. (El endpoint ya está hecho, solo hay que fetchear)
+        2. Registro de mascota. Alert de que se registró.
+
+Perfil de propietario:
+    Frontend:
+        1. Un form de los datos del usuario.
+
+Gestor de clínica:
+    Frontend:
+        1. El mismo SideNav dle Propietario pero que muestre "Mis Centros" y "Nuevo Centro".
+        2. Al inicio, que muestre los centros que maneja.
+        3. Al clicar un centro, que haya un botón que permita añadir un veterinario.
+        4. Un formulario para registrar un veterinario.
+
+Veterinario:
+    Frontend:
+        1. Que muestre las citas que tiene.
+
