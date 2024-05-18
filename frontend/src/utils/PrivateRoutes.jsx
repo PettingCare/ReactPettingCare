@@ -11,7 +11,10 @@ const PrivateRoutes = () => {
 
   useEffect(() => {
     if (!isAuthenticated) {
-      navigate("/login");
+      navigate("/");
+    } else {
+      // TODO: Obtener el tipo de usuario y redigirlo a la página que le toca.
+      // TODO: Guardar el rol del usuario también.
     }
   }, [isAuthenticated, navigate]);
 

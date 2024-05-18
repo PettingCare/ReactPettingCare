@@ -11,7 +11,7 @@ import mysql.connector
 from datetime import datetime
 from decouple import config
 
-db= mysql.connector.connect(
+db = mysql.connector.connect(
     host=config("host"),
     user=config("user"),
     passwd=config("password"),
@@ -38,7 +38,7 @@ app.add_middleware(
 # Endpoint para obtener todos los elementos
 @app.get("/")
 async def inicio():
-        return {"message" :"Main"}
+    return {"message" :"Main"}
 
 @app.get("/usuarios/")
 async def leer_usuarios():
@@ -215,7 +215,7 @@ async def obtener_mascotas(token: str = Depends(JWTBearer())):
     mycursor = db.cursor()
 
     mycursor.execute("""
-            SELECT nombre, nacimiento, especie
+            SELECT idMascota, nombre, nacimiento, especie
             FROM Mascota
             WHERE propietario = %s
             """, (usuario_username,))

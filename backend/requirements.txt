@@ -30,7 +30,6 @@ npx==0.1.2
 numpy==1.26.4
 orjson==3.10.3
 passlib==1.7.4
-psycopg2==2.9.9
 pydantic==2.6.3
 pydantic_core==2.16.3
 Pygments==2.18.0

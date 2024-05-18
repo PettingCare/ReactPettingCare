@@ -27,7 +27,7 @@ const MenuPrincipal = () => {
           <Route path="/MiPerfil" element={<MiPerfil/>} />
         </Route>
         {/* Unica ruta publica (hasta que tengamos /Home con la presentacion) */}
-        <Route path="/login" element = {<LoginRegistro/>}/>
+        <Route path="/" element = {<LoginRegistro/>}/>
       </Routes>
     </Router>
   );
