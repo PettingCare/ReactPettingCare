@@ -110,6 +110,33 @@ async def login_usuario(usuario: usuario_loginSchema):
 
     # Si las credenciales son válidas, emite un token JWT
     token = signJWT(usuario.username)
+
+    mycursor.execute("SELECT username FROM Propietario WHERE username = %s", (usuario.username, ))
+    ret = mycursor.fetchone()
+    print(ret[0])
+    if ret[0] == usuario.username:
+        return { "tipo": "Propietario",
+                 "token": token}
+
+    mycursor.execute("SELECT username FROM GerenteClinica WHERE username = %s", (usuario.username, ))
+    ret = mycursor.fetchone()
+    if ret[0] == usuario.username:
+        return {"tipo": "GerenteClinica",
+                "token": token}
+
+    mycursor.execute("SELECT username FROM VeterinarioCentro WHERE username = %s", (usuario.username, ))
+    ret = mycursor.fetchone()
+    if ret[0] == usuario.username:
+        return {"tipo": "VeterinarioCentro",
+                "token": token}
+
+    mycursor.execute("SELECT username FROM Administrador WHERE username = %s", (usuario.username, ))
+    ret = mycursor.fetchone()
+    if ret[0] == usuario.username:
+        return {"tipo": "Administrador",
+                "token": token}
+    mycursor.close()
+
     return {"token": token}
 
 

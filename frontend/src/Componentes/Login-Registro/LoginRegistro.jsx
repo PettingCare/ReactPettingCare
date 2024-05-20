@@ -36,8 +36,25 @@ const LoginRegistro = () => {
     // Verificar si hay un token guardado al cargar la página
     const storedToken = localStorage.getItem("token");
     if (storedToken) {
+      const tipo = localStorage.getItem("tipo")
       console.log('Sesión iniciada. Redireccionando a la página de inicio...');
-      navigate('/Inicio');
+      switch(tipo) {
+        case "Propietario":
+          console.log("Es un Propietario")
+          navigate("/Inicio"); // enviamos al incio
+          break
+        case "GerenteClinica":
+          console.log("Es un Gerente")
+          break
+        case "VeterinarioCentro":
+          console.log("Es un Veterinario")
+          break
+        case "Administrador":
+          console.log("Es un Administrador")
+          break
+        default:
+          alert("Es un usuario sin ningún tipo")
+      }
     } else {
       console.log('Sesión NO iniciada.');
     }
@@ -63,9 +80,11 @@ const LoginRegistro = () => {
       }),
     });
     const data = await response.json();
+    console.log(data)
     if (response.ok) {
       // Inicio de sesión exitoso, guardar token en local storage
       localStorage.setItem("token", JSON.stringify(data.token));
+      localStorage.setItem("tipo", data.tipo);
 
       console.log('token sin almacenar:', data.token);
       console.log('token almacenado:',localStorage.getItem("token"));
@@ -74,7 +93,23 @@ const LoginRegistro = () => {
       console.log('token almacenado 2:', storedToken);
       // Redirigir al usuario a otra ruta
       console.log('Sesión iniciada. Redireccionando a la página de inicio...');
-      navigate("/Inicio"); // enviamos al incio
+      switch(data.tipo) {
+        case "Propietario":
+          console.log("Es un Propietario")
+          navigate("/Inicio"); // enviamos al incio
+          break
+        case "GerenteClinica":
+          console.log("Es un Gerente")
+          break
+        case "VeterinarioCentro":
+          console.log("Es un Veterinario")
+          break
+        case "Administrador":
+          console.log("Es un Administrador")
+          break
+        default:
+          alert("Es un usuario sin ningún tipo")
+      }
     } else {
       // Manejar error de inicio de sesión
       console.error('Error al iniciar sesión:', data.message);
