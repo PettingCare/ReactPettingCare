@@ -2,7 +2,7 @@ import React from 'react'
 import Sidenav from '../../Componentes/Sidenav/Sidenav'
 import Box from '@mui/material/Box';
 import Navbar from '../../Componentes/Navbar';
-import TablaCitas from '../../Componentes/Tablas/TablaCitas';
+import TablaMascotas from '../../Componentes/Tablas/TablaMascotas';
 
 export default function Mascotas() {
   /*
@@ -18,7 +18,7 @@ export default function Mascotas() {
         <h1>Mascotas</h1>
         <Box height={300}>
           <Box sx={{ maxWidth: 800, margin: '0 auto', alignItems: 'center', width: '60%'}}>
-            <TablaCitas/>
+            <TablaMascotas/>
           </Box>
         </Box>
       </Box>

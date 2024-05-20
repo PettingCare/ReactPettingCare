@@ -9,7 +9,7 @@ import logo from "../Assets/PC_logo.png"
 import {  useNavigate } from 'react-router-dom';
 import Alert from '@mui/material/Alert';
 // URL base del backend
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = 'http://localhost:8000';
 
 const LoginRegistro = () => {
 

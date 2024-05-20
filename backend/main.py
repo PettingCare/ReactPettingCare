@@ -7,6 +7,7 @@ from app.auth.utils import hash_pass, verifica_password,invalidate_token, is_tok
 from fastapi.middleware.cors import CORSMiddleware
 from app.auth.auth_handler import decodeJWT
 from fastapi.responses import JSONResponse
+import json
 import mysql.connector
 from datetime import datetime
 from decouple import config
@@ -210,6 +211,7 @@ async def obtener_mascotas(token: str = Depends(JWTBearer())):
 
     # Decodificar el token para obtener el username del usuario
     usuario_username = decodeJWT(token)
+    print('User %s wants to get his pets' % (usuario_username))
 
     # Consulta a la base de datos para obtener el perfil del usuario
     mycursor = db.cursor()
@@ -220,16 +222,20 @@ async def obtener_mascotas(token: str = Depends(JWTBearer())):
             WHERE propietario = %s
             """, (usuario_username,))
     perfil = mycursor.fetchall()
+    mycursor.close()
 
     # Si no se encuentra el perfil, devuelve un error
     # if perfil is None:
     if not perfil:
         raise HTTPException(status_code=404, detail=f"No hay mascotas asociadas al username {usuario_username}")
 
+    columns = ['idMascota', 'nombre', 'nacimiento', 'especie']
+    data = []
     for row in perfil:
-        print(row)
-    mycursor.close()
-    return perfil
+        mascota = dict(zip(columns, row))
+        data.append(mascota)
+    print(data)
+    return data
     # Devuelve la información del perfil en formato JSON
     # return JSONResponse(content={"nombre": perfil[0], "email": perfil[1]})
     # FALTA PASARLO COMO UN JSON ?
