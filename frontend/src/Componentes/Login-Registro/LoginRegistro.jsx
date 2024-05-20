@@ -46,11 +46,11 @@ const LoginRegistro = () => {
           break
         case "GerenteClinica":
           console.log("Es un Gerente")
-          navigate("/InicioClinica"); // enviamos al incioClinica
+          navigate("/Clinica/Inicio"); // enviamos al incioClinica
           break
         case "VeterinarioCentro":
           console.log("Es un Veterinario")
-          navigate("/InicioVeterinario"); // enviamos al InicioVeterinario
+          navigate("/Veterinario/Inicio"); // enviamos al InicioVeterinario
           break
         case "Administrador":
           console.log("Es un Administrador")
@@ -103,9 +103,11 @@ const LoginRegistro = () => {
           break
         case "GerenteClinica":
           console.log("Es un Gerente")
+          navigate("/Clinica/Inicio"); // enviamos al incioClinica
           break
         case "VeterinarioCentro":
           console.log("Es un Veterinario")
+          navigate("/Veterinario/Inicio"); // enviamos al InicioVeterinario
           break
         case "Administrador":
           console.log("Es un Administrador")
