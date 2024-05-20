@@ -41,13 +41,16 @@ const LoginRegistro = () => {
       switch(tipo) {
         case "Propietario":
           console.log("Es un Propietario")
+
           navigate("/Inicio"); // enviamos al incio
           break
         case "GerenteClinica":
           console.log("Es un Gerente")
+          navigate("/InicioClinica"); // enviamos al incioClinica
           break
         case "VeterinarioCentro":
           console.log("Es un Veterinario")
+          navigate("/InicioVeterinario"); // enviamos al InicioVeterinario
           break
         case "Administrador":
           console.log("Es un Administrador")

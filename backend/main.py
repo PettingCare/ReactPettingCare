@@ -115,29 +115,34 @@ async def login_usuario(usuario: usuario_loginSchema):
     ret = mycursor.fetchone()
     print(ret[0])
     if ret[0] == usuario.username:
-        return { "tipo": "Propietario",
-                 "token": token}
-
+        # return { "tipo": "Propietario",
+        #          "token": token}
+        return JSONResponse(content={"token": token, "tipo": "Propietario"})
+    
     mycursor.execute("SELECT username FROM GerenteClinica WHERE username = %s", (usuario.username, ))
     ret = mycursor.fetchone()
     if ret[0] == usuario.username:
-        return {"tipo": "GerenteClinica",
-                "token": token}
+        # return {"tipo": "GerenteClinica",
+        #         "token": token}
+        return JSONResponse(content={"token": token, "tipo": "GerenteClinica"})
 
     mycursor.execute("SELECT username FROM VeterinarioCentro WHERE username = %s", (usuario.username, ))
     ret = mycursor.fetchone()
     if ret[0] == usuario.username:
-        return {"tipo": "VeterinarioCentro",
-                "token": token}
-
+        # return {"tipo": "VeterinarioCentro",
+        #         "token": token}
+        return JSONResponse(content={"token": token, "tipo": "VeterinarioCentro"})
     mycursor.execute("SELECT username FROM Administrador WHERE username = %s", (usuario.username, ))
     ret = mycursor.fetchone()
     if ret[0] == usuario.username:
-        return {"tipo": "Administrador",
-                "token": token}
+        # return {"tipo": "Administrador",
+        #         "token": token}
+        return JSONResponse(content={"token": token, "tipo": "Administrador"})
+
     mycursor.close()
 
-    return {"token": token}
+    # return {"token": token}
+    return JSONResponse(content={"token": token, "email": perfil[1]})
 
 
 @app.post("/usuarios/logout")
@@ -149,15 +154,6 @@ async def logout_usuario(token: str = Depends(JWTBearer())):
     # Invalidar el token
     invalidate_token(token)
     return {"message": "Sesión cerrada exitosamente"}
-
-
-@app.post("/pr_autenticar")
-async def prueba_bearer(token: str = Depends(JWTBearer())):
-    if is_token_invalid(token):
-        raise HTTPException(status_code=401, detail="El token ya está invalidado")
-    return {
-        "data": "estas dentro"
-    }
 
 
 # Get para ver mi perfil
