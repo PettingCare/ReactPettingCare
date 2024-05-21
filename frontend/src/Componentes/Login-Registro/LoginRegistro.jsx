@@ -57,7 +57,8 @@ const LoginRegistro = () => {
           navigate("/admin")
           break
         default:
-          alert("Es un usuario sin ningún tipo")
+          console.log("Es un usuario sin ningún tipo")
+          break
       }
     } else {
       console.log('Sesión NO iniciada.');
@@ -112,6 +113,7 @@ const LoginRegistro = () => {
           break
         case "Administrador":
           console.log("Es un Administrador")
+          navigate('/admin')
           break
         default:
           console.log("Es un usuario sin ningún tipo")

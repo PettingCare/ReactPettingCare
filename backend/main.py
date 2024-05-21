@@ -93,7 +93,7 @@ async def login_usuario(usuario: usuario_loginSchema):
 
     # Consulta a la base de datos para verificar si el usuario existe
     mycursor.execute("""
-            SELECT username, nombre, password FROM Usuario
+            SELECT username, nombre, password, email FROM Usuario
             WHERE username = %s
             """, (usuario.username,))
     user_data = mycursor.fetchone()
@@ -109,7 +109,39 @@ async def login_usuario(usuario: usuario_loginSchema):
 
     # Si las credenciales son válidas, emite un token JWT
     token = signJWT(usuario.username)
-    return {"token": token}
+    
+    mycursor.execute("SELECT username FROM Propietario WHERE username = %s", (usuario.username, ))
+    ret = mycursor.fetchone()
+
+    if ret is not None and ret[0] == usuario.username:
+        # return { "tipo": "Propietario",
+        #          "token": token}
+        return JSONResponse(content={"token": token, "tipo": "Propietario"})
+    
+    mycursor.execute("SELECT username FROM GerenteClinica WHERE username = %s", (usuario.username, ))
+    ret = mycursor.fetchone()
+    if ret is not None and ret[0] == usuario.username:
+        # return {"tipo": "GerenteClinica",
+        #         "token": token}
+        return JSONResponse(content={"token": token, "tipo": "GerenteClinica"})
+
+    mycursor.execute("SELECT username FROM VeterinarioCentro WHERE username = %s", (usuario.username, ))
+    ret = mycursor.fetchone()
+    if ret is not None and ret[0] == usuario.username:
+        # return {"tipo": "VeterinarioCentro",
+        #         "token": token}
+        return JSONResponse(content={"token": token, "tipo": "VeterinarioCentro"})
+    mycursor.execute("SELECT username FROM Administrador WHERE username = %s", (usuario.username, ))
+    ret = mycursor.fetchone()
+    if ret is not None and ret[0] == usuario.username:
+        # return {"tipo": "Administrador",
+        #         "token": token}
+        return JSONResponse(content={"token": token, "tipo": "Administrador"})
+
+    mycursor.close()
+
+    # return {"token": token}
+    return JSONResponse(content={"token": token, "email": user_data[3]})
 
 
 @app.post("/usuarios/logout")
@@ -249,6 +281,16 @@ async def obtener_clinicas():
         data.append(clinica)
     return data
 
+@app.get("/Gerentes")
+async def obtener_gerentes():
+    cursor = db.cursor()
+    cursor.execute("""SELECT username FROM GerenteClinica;""")
+    gerentes = cursor.fetchall()
+    cursor.close()
+    data = []
+    for gerente in gerentes:
+        data.append(gerente)
+    return data
 
 @app.get("/Especies/")
 async def obtener_especies():

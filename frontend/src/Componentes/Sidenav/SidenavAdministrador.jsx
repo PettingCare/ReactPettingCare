@@ -5,33 +5,21 @@ import MuiDrawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
-import { MdOutlinePets } from "react-icons/md";
-import { MdDateRange } from "react-icons/md";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import Collapse from "@mui/material/Collapse";
-import { GiDogHouse, GiHospitalCross } from "react-icons/gi";
-import { FaDog } from "react-icons/fa6";
-import { LiaHospital } from "react-icons/lia";
-import { SlUserFollow } from "react-icons/sl";
 import { FaHospitalUser, FaUserPlus, FaHospital, FaUsersGear } from "react-icons/fa6";
 
-import { FaHome, FaRegHospital, FaHospitalAlt } from "react-icons/fa";
-import { BiSolidHelpCircle } from "react-icons/bi";
-import { TfiStatsUp } from "react-icons/tfi";
+import { FaHome, FaHospitalAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { usoAppInstance } from "../../appInstance";
 import "./Sidenav.css";
 import "../../App.css";
+
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
