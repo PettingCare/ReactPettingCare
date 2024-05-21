@@ -65,6 +65,7 @@ export default function MiPerfil() {
                 <p className="perfil-nombre">{nombre} {apellidos}</p>
                 <p><AiOutlinePhone/> {telefono}</p>
                 <p><AiOutlineMail/> {email}</p>
+                
               </div>
             </div>
           </div>

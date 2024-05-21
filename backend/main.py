@@ -181,7 +181,7 @@ async def obtener_perfil(token: str = Depends(JWTBearer())):
 
     mycursor.close()
     # Devuelve la información del perfil en formato JSON
-    return JSONResponse(content={"username": perfil[0], "nombre": perfil[2], "apellidos": perfil[3], "telefono": perfil[4], "email": perfil[5] })
+    return JSONResponse(content={"username": perfil[0], "nombre": perfil[2], "apellidos": perfil[3], "telefono": perfil[4], "email": perfil[5]})
 
 
 # Endpoint para registrar una mascota
