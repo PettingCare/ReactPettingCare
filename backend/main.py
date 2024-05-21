@@ -7,7 +7,6 @@ from app.auth.utils import hash_pass, verifica_password,invalidate_token, is_tok
 from fastapi.middleware.cors import CORSMiddleware
 from app.auth.auth_handler import decodeJWT
 from fastapi.responses import JSONResponse
-import json
 import mysql.connector
 from datetime import datetime
 from decouple import config
@@ -94,7 +93,7 @@ async def login_usuario(usuario: usuario_loginSchema):
 
     # Consulta a la base de datos para verificar si el usuario existe
     mycursor.execute("""
-            SELECT username, nombre, password, email FROM Usuario
+            SELECT username, nombre, password FROM Usuario
             WHERE username = %s
             """, (usuario.username,))
     user_data = mycursor.fetchone()
@@ -110,39 +109,7 @@ async def login_usuario(usuario: usuario_loginSchema):
 
     # Si las credenciales son válidas, emite un token JWT
     token = signJWT(usuario.username)
-
-    mycursor.execute("SELECT username FROM Propietario WHERE username = %s", (usuario.username, ))
-    ret = mycursor.fetchone()
-
-    if ret is not None and ret[0] == usuario.username:
-        # return { "tipo": "Propietario",
-        #          "token": token}
-        return JSONResponse(content={"token": token, "tipo": "Propietario"})
-    
-    mycursor.execute("SELECT username FROM GerenteClinica WHERE username = %s", (usuario.username, ))
-    ret = mycursor.fetchone()
-    if ret is not None and ret[0] == usuario.username:
-        # return {"tipo": "GerenteClinica",
-        #         "token": token}
-        return JSONResponse(content={"token": token, "tipo": "GerenteClinica"})
-
-    mycursor.execute("SELECT username FROM VeterinarioCentro WHERE username = %s", (usuario.username, ))
-    ret = mycursor.fetchone()
-    if ret is not None and ret[0] == usuario.username:
-        # return {"tipo": "VeterinarioCentro",
-        #         "token": token}
-        return JSONResponse(content={"token": token, "tipo": "VeterinarioCentro"})
-    mycursor.execute("SELECT username FROM Administrador WHERE username = %s", (usuario.username, ))
-    ret = mycursor.fetchone()
-    if ret is not None and ret[0] == usuario.username:
-        # return {"tipo": "Administrador",
-        #         "token": token}
-        return JSONResponse(content={"token": token, "tipo": "Administrador"})
-
-    mycursor.close()
-
-    # return {"token": token}
-    return JSONResponse(content={"token": token, "email": user_data[3]})
+    return {"token": token}
 
 
 @app.post("/usuarios/logout")
@@ -154,6 +121,15 @@ async def logout_usuario(token: str = Depends(JWTBearer())):
     # Invalidar el token
     invalidate_token(token)
     return {"message": "Sesión cerrada exitosamente"}
+
+
+@app.post("/pr_autenticar")
+async def prueba_bearer(token: str = Depends(JWTBearer())):
+    if is_token_invalid(token):
+        raise HTTPException(status_code=401, detail="El token ya está invalidado")
+    return {
+        "data": "estas dentro"
+    }
 
 
 # Get para ver mi perfil
@@ -168,7 +144,7 @@ async def obtener_perfil(token: str = Depends(JWTBearer())):
     mycursor = db.cursor()
 
     mycursor.execute("""
-            SELECT *
+            SELECT nombre, email
             FROM Usuario
             WHERE username = %s
             """, (usuario_username,))
@@ -181,7 +157,7 @@ async def obtener_perfil(token: str = Depends(JWTBearer())):
 
     mycursor.close()
     # Devuelve la información del perfil en formato JSON
-    return JSONResponse(content={"username": perfil[0], "nombre": perfil[2], "apellidos": perfil[3], "telefono": perfil[4], "email": perfil[5]})
+    return JSONResponse(content={"nombre": perfil[0], "email": perfil[1]})
 
 
 # Endpoint para registrar una mascota
@@ -234,7 +210,6 @@ async def obtener_mascotas(token: str = Depends(JWTBearer())):
 
     # Decodificar el token para obtener el username del usuario
     usuario_username = decodeJWT(token)
-    print('User %s wants to get his pets' % (usuario_username))
 
     # Consulta a la base de datos para obtener el perfil del usuario
     mycursor = db.cursor()
@@ -245,20 +220,16 @@ async def obtener_mascotas(token: str = Depends(JWTBearer())):
             WHERE propietario = %s
             """, (usuario_username,))
     perfil = mycursor.fetchall()
-    mycursor.close()
 
     # Si no se encuentra el perfil, devuelve un error
     # if perfil is None:
     if not perfil:
         raise HTTPException(status_code=404, detail=f"No hay mascotas asociadas al username {usuario_username}")
 
-    columns = ['idMascota', 'nombre', 'nacimiento', 'especie']
-    data = []
     for row in perfil:
-        mascota = dict(zip(columns, row))
-        data.append(mascota)
-    print(data)
-    return data
+        print(row)
+    mycursor.close()
+    return perfil
     # Devuelve la información del perfil en formato JSON
     # return JSONResponse(content={"nombre": perfil[0], "email": perfil[1]})
     # FALTA PASARLO COMO UN JSON ?
@@ -304,5 +275,25 @@ async def obtener_especies():
 
 #FALTA EL GET MASCOTA{ID}
 #FALTAN ENDPOINTS DE CITAS
+@app.get("/Centros")
+async def obtener_centros():
+    # Consulta a la base de datos para obtener los centros disponibles
+    mycursor = db.cursor()
+
+    mycursor.execute("""
+            SELECT *
+            FROM Centro 
+            """)
+    centros = mycursor.fetchone()
+
+    # Si no se encuentra centros, devuelve un error
+    if not centros:
+        mycursor.close()
+        raise HTTPException(status_code=404, detail="No hay centros disponibles")
+
+    mycursor.close()
+    # Devuelve la información de los centros en formato JSON
+    return centros
+
 
 #FRONT
