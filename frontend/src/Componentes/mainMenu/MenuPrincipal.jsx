@@ -18,6 +18,11 @@ import AyudaClinica from '../../rutas/Clinica/AyudaClinica';
 import AyudaVeterinario from '../../rutas/Veterinario/AyudaVeterinario';
 import CitasVeterinario from '../../rutas/Veterinario/CitasVeterinario';
 import MiPerfilVeterinario from '../../rutas/Veterinario/MiPerfilVeterinario';
+import InicioAdministrador from '../../rutas/Administrador/InicioAdministrador';
+import ListadoClinicas from '../../rutas/Administrador/ListadoClinicas';
+import ListadoGestores from '../../rutas/Administrador/ListadoGestores';
+import CrearClinica from '../../rutas/Administrador/CrearClinica';
+import CrearGestor from '../../rutas/Administrador/CrearGestor';
 
 
 const MenuPrincipal = () => {
@@ -42,7 +47,11 @@ const MenuPrincipal = () => {
           <Route path="/Veterinario/MiPerfil" element={<MiPerfilVeterinario/>} />
           <Route path="/Veterinario/ayuda" element={<AyudaVeterinario/>} />
           <Route path="/Veterinario/Citas" element={<CitasVeterinario/>} />
-
+          <Route path="/admin" element={<InicioAdministrador/>} />
+          <Route path="/admin/Clinicas" element={<ListadoClinicas/>} />
+          <Route path="/admin/Gestores" element={<ListadoGestores/>} />
+          <Route path="/admin/CrearClinicas" element={<CrearClinica/>} />
+          <Route path="/admin/CrearGestor" element={<CrearGestor/>} />
 
         </Route>
         <Route path="/" element = {<LoginRegistro/>}/>
