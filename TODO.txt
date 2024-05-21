@@ -1,5 +1,6 @@
 Login:
-    1. Poder diferenciar el tipo de usuario.
+    1. [EN PROGRESO. Falta probar si funciona creando diferentes tipos de usuarios con la contraseña hasheada]
+       Poder diferenciar el tipo de usuario.
 
 Citas:
     Endpoints:
@@ -12,7 +13,7 @@ Citas:
 
 Mascotas:
     Frontend:
-        1. Tabla de mascotas de un usuario. (El endpoint ya está hecho, solo hay que fetchear)
+        1. [HECHO] Tabla de mascotas de un usuario. (El endpoint ya está hecho, solo hay que fetchear)
         2. Registro de mascota. Alert de que se registró.
 
 Perfil de propietario:
