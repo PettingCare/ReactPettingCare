@@ -17,6 +17,7 @@ import MisCentros from '../../rutas/Clinica/MisCentros';
 import AyudaClinica from '../../rutas/Clinica/AyudaClinica';
 import AyudaVeterinario from '../../rutas/Veterinario/AyudaVeterinario';
 import CitasVeterinario from '../../rutas/Veterinario/CitasVeterinario';
+import MiPerfilVeterinario from '../../rutas/Veterinario/MiPerfilVeterinario';
 
 
 const MenuPrincipal = () => {
@@ -36,7 +37,9 @@ const MenuPrincipal = () => {
           <Route path="/Clinica/Inicio" element={<InicioClinica/>} />
           <Route path="/Clinica/MisCentros" element={<MisCentros/>} />
           <Route path="/Clinica/CrearCentro" element={<CrearCentro/>} />
+          <Route path="/clinica/:clinicaId/crear-veterinario" element={<CrearCentro/>} />
           <Route path="/Veterinario/Inicio" element={<InicioVeterinario/>} />
+          <Route path="/Veterinario/MiPerfil" element={<MiPerfilVeterinario/>} />
           <Route path="/Veterinario/ayuda" element={<AyudaVeterinario/>} />
           <Route path="/Veterinario/Citas" element={<CitasVeterinario/>} />
 

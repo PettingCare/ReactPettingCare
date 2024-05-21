@@ -1,6 +1,5 @@
 import React from 'react'
 import Box from '@mui/material/Box';
-import Navbar from '../../Componentes/Navbar';
 
 import Grid from '@mui/material/Unstable_Grid2';
 
@@ -13,11 +12,12 @@ import Typography from '@mui/material/Typography';
 import Switch from '@mui/material/Switch';
 import Stack from '@mui/material/Stack';
 import SidenavVeterinario from '../../Componentes/Sidenav/SidenavVeterinario';
+import NavbarVet from '../../Componentes/NavbarVet';
 
 export default function CitasVeterinario() {
   return (
     <>
-    <Navbar/>
+    <NavbarVet/>
     <Box height={40}/>
     <Box sx={{ display: 'flex' }}>
       <SidenavVeterinario/>

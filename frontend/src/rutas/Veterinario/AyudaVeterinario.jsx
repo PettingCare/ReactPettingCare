@@ -1,6 +1,5 @@
 import React from 'react'
 import Box from '@mui/material/Box';
-import Navbar from '../../Componentes/Navbar';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -9,11 +8,12 @@ import { CardActionArea } from '@mui/material';
 import soporteimg from '../../Componentes/Assets/soporteimg.png'
 import '../propietario/Ayuda.css'
 import SidenavVeterinario from '../../Componentes/Sidenav/SidenavVeterinario';
+import NavbarVet from '../../Componentes/NavbarVet';
 export default function AyudaVeterinario() {
   return (
 
     <>
-    <Navbar/>
+    <NavbarVet/>
     <Box height={40}/>
     <Box sx={{  display: 'flex'}}>
       <SidenavVeterinario/>
