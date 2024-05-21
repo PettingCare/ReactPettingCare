@@ -51,6 +51,42 @@ async def leer_usuarios():
     mycursor.close()
     return items
 
+@app.post("/gerente/registro")
+async def registro_gerente(usuario: usuario_registroSchema= Body(...)):
+    mycursor = db.cursor()
+    try:
+        # Hash The Password DE MOMENTO NO, HAY QUE ARREGLAR LA BBDD
+        hashed_pass = hash_pass(usuario.password)
+        usuario.password = hashed_pass
+        mycursor.execute("SELECT username FROM Usuario WHERE username = %s", (usuario.username,))
+        usuario_existente = mycursor.fetchone()
+        if usuario_existente:
+            #Ya se han registrado con el email indicado
+            raise HTTPException(status_code=401, detail="Username ya registrado")
+        else:
+            mycursor.execute("""
+                INSERT INTO Usuario (username, password, nombre, apellidos, telefono, email)
+                VALUES (%s, %s, %s, %s, %s, %s)
+                """, (usuario.username,usuario.password,usuario.nombre,usuario.apellidos,usuario.telefono, usuario.email))
+
+            mycursor.execute("""
+                INSERT INTO GerenteClinica (username)
+                VALUES (%s)
+                """, (usuario.username,))
+
+            db.commit()
+
+            # Ahora, para obtener los valores de nombre y email después de la inserción:
+            mycursor.execute("SELECT nombre, email FROM Usuario WHERE email = %s", (usuario.email,))
+            registro_exitoso = mycursor.fetchone()
+
+            return {"message": "Registro exitoso", "data": {"nombre": registro_exitoso[0], "email": registro_exitoso[1]}}
+    finally:
+        # Leer todos los resultados antes de cerrar el cursor
+        mycursor.fetchall()
+        mycursor.close()
+
+
 @app.post("/usuarios/registro")
 async def registro_usuario(usuario: usuario_registroSchema= Body(...)):
     mycursor = db.cursor()
