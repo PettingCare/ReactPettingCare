@@ -180,7 +180,7 @@ export default function SidenavAdministrador() {
               <ListItemButton
                 sx={{ pl: 4 }}
                 onClick={() => {
-                  navigate("/admin/CrearGestor");
+                  navigate("/admin/CrearGerente");
                 }}
               >
                 <ListItemIcon>

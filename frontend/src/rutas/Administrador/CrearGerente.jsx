@@ -3,9 +3,9 @@ import { DataGrid } from '@mui/x-data-grid';
 
 const BASE_URL = 'http://localhost:8000';
 
-const CrearGestor = () => {
+const CrearGerente = () => {
   return (
     <div></div>
   )
 }
-export default CrearGestor;
+export default CrearGerente;

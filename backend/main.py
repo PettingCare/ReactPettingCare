@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException, Body, Depends
 from pydantic import BaseModel
-from app.modelo import usuario_loginSchema, usuario_registroSchema,mascota_registroSchema
+from app.modelo import usuario_loginSchema, usuario_registroSchema,mascota_registroSchema,clinica_registroSchema
 from app.auth.auth_handler import signJWT
 from app.auth.auth_bearer import JWTBearer
 from app.auth.utils import hash_pass, verifica_password,invalidate_token, is_token_invalid
@@ -280,6 +280,19 @@ async def obtener_clinicas():
         clinica = dict(zip(columns, [row[0], row[1], row[2] + ' ' + row[3]]))
         data.append(clinica)
     return data
+
+@app.post('/Clinicas/registro')
+async def registrar_clinica(clinica: clinica_registroSchema=Body(...)):
+    nombre = clinica.nombre
+    gerente = clinica.gerente
+    p = (nombre, gerente, )
+
+    cursor = db.cursor()
+    cursor.execute("""INSERT INTO Clinica (nombre, Gerente) VALUES (%s, %s)""", p)
+    db.commit()
+    print("Clinica ha sido insertado")
+    cursor.close()
+
 
 @app.get("/Gerentes")
 async def obtener_gerentes():

@@ -61,3 +61,14 @@ class centro_registroSchema(BaseModel):
                 "direccion": "calle 24 1-1"
             }
         }
+
+class clinica_registroSchema(BaseModel):
+    nombre: str = Field(...)
+    gerente: str = Field(...)
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "nombre": "Clinica",
+                "gerente": "username"
+            }
+        }

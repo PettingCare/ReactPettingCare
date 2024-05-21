@@ -28,8 +28,25 @@ const CrearClinica = () =>
     getGerentes()
   }, [])
 
-  const registrarClinica = (event) => {
-
+  const registrarClinica = async (event) => {
+    event.preventDefault();
+    const {nombre, gerente} = event.target.elements;
+    console.log(nombre.value)
+    console.log(gerente.value)
+    try {
+      const response = await fetch(`${BASE_URL}/Clinicas/registro`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          nombre: nombre.value,
+          gerente: gerente.value
+        })
+      });
+    } catch (error) {
+      console.log(error)
+    }
   }
   return (
     <>
@@ -52,7 +69,7 @@ const CrearClinica = () =>
                       <div className="input-box">
                         <div className='gerente'>
                           <label>Gerente</label>
-                          <select className='selectGerente' >
+                          <select className='selectGerente' name='gerente' >
                             { gerentes.map((nombre, index) => {
                               return (
                                 <option key={index} value="">

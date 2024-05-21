@@ -22,7 +22,7 @@ import InicioAdministrador from '../../rutas/Administrador/InicioAdministrador';
 import ListadoClinicas from '../../rutas/Administrador/ListadoClinicas';
 import ListadoGestores from '../../rutas/Administrador/ListadoGestores';
 import CrearClinica from '../../rutas/Administrador/CrearClinica';
-import CrearGestor from '../../rutas/Administrador/CrearGestor';
+import CrearGerente from '../../rutas/Administrador/CrearGerente';
 
 
 const MenuPrincipal = () => {
@@ -51,7 +51,7 @@ const MenuPrincipal = () => {
           <Route path="/admin/Clinicas" element={<ListadoClinicas/>} />
           <Route path="/admin/Gestores" element={<ListadoGestores/>} />
           <Route path="/admin/CrearClinica" element={<CrearClinica/>} />
-          <Route path="/admin/CrearGestor" element={<CrearGestor/>} />
+          <Route path="/admin/CrearGerente" element={<CrearGerente/>} />
 
         </Route>
         <Route path="/" element = {<LoginRegistro/>}/>
