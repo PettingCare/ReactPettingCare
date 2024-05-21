@@ -22,7 +22,7 @@ Perfil de propietario:
 
 Gestor de clínica:
     Frontend:
-        1. El mismo SideNav dle Propietario pero que muestre "Mis Centros" y "Nuevo Centro".
+        1. El mismo SideNav del Propietario pero que muestre "Mis Centros" y "Nuevo Centro".
         2. Al inicio, que muestre los centros que maneja.
         3. Al clicar un centro, que haya un botón que permita añadir un veterinario.
         4. Un formulario para registrar un veterinario.
@@ -31,3 +31,8 @@ Veterinario:
     Frontend:
         1. Que muestre las citas que tiene.
 
+Administrador:
+	1. [HECHO] Listado de Clínicas.
+	2. [HECHO] Listado de Gerentes de Clínicas.
+	3. [HECHO] Registro de Clínicas.
+	4. [HECHO] Registro de Gerentes.
