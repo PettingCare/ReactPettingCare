@@ -18,7 +18,7 @@ Mascotas:
 
 Perfil de propietario:
     Frontend:
-        1. Un form de los datos del usuario.
+        1. [HECHO] Un form de los datos del usuario.
 
 Gestor de clínica:
     Frontend:
