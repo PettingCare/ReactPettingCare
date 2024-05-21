@@ -263,6 +263,21 @@ async def obtener_mascotas(token: str = Depends(JWTBearer())):
     # return JSONResponse(content={"nombre": perfil[0], "email": perfil[1]})
     # FALTA PASARLO COMO UN JSON ?
 
+@app.get('/Clinicas')
+async def obtener_clinicas():
+    cursor = db.cursor()
+    cursor.execute("""SELECT Clinica.id, Clinica.nombre, Usuario.nombre,
+                   Usuario.apellidos FROM Clinica INNER JOIN 
+                   Usuario ON Clinica.Gerente=Usuario.username;""")
+    clinicas = cursor.fetchall()
+    cursor.close()
+    columns = ['id', 'nombre', 'Gerente']
+    data = []
+    for row in clinicas:
+        clinica = dict(zip(columns, [row[0], row[1], row[2] + ' ' + row[3]]))
+        data.append(clinica)
+    return data
+
 
 @app.get("/Especies/")
 async def obtener_especies():

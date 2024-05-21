@@ -50,7 +50,7 @@ const MenuPrincipal = () => {
           <Route path="/admin" element={<InicioAdministrador/>} />
           <Route path="/admin/Clinicas" element={<ListadoClinicas/>} />
           <Route path="/admin/Gestores" element={<ListadoGestores/>} />
-          <Route path="/admin/CrearClinicas" element={<CrearClinica/>} />
+          <Route path="/admin/CrearClinica" element={<CrearClinica/>} />
           <Route path="/admin/CrearGestor" element={<CrearGestor/>} />
 
         </Route>
