@@ -15,10 +15,11 @@ const CrearClinica = () =>
   useEffect(() => {
     const getGerentes = async (event) => {
       try {
-        const response = await fetch(`${BASE_URL}/Gerentes`)
+        const response = await fetch(`${BASE_URL}/UserGerentes`)
         if (response.ok) {
           const data = await response.json()
           console.log(data)
+
           setGerentes(data)
         }
       } catch(error) {

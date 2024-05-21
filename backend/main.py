@@ -302,6 +302,20 @@ async def obtener_mascotas(token: str = Depends(JWTBearer())):
     # return JSONResponse(content={"nombre": perfil[0], "email": perfil[1]})
     # FALTA PASARLO COMO UN JSON ?
 
+@app.get('/Gerentes')
+async def obtener_gerentes():
+    cursor = db.cursor()
+    cursor.execute("""SELECT Usuario.username, Usuario.nombre, Usuario.apellidos, 
+                   Usuario.telefono, Usuario.email FROM Usuario INNER JOIN 
+                   GerenteClinica ON GerenteClinica.username = Usuario.username;""")
+    gerentes = cursor.fetchall()
+    cursor.close()
+    columns = ['username', 'nombre', 'apellidos', 'telefono', 'email']
+    data = []
+    for gerente in gerentes:
+        data.append(dict(zip(columns, gerente)))
+    return data
+
 @app.get('/Clinicas')
 async def obtener_clinicas():
     cursor = db.cursor()
@@ -330,7 +344,7 @@ async def registrar_clinica(clinica: clinica_registroSchema=Body(...)):
     cursor.close()
 
 
-@app.get("/Gerentes")
+@app.get("/UserGerentes")
 async def obtener_gerentes():
     cursor = db.cursor()
     cursor.execute("""SELECT username FROM GerenteClinica;""")

@@ -160,7 +160,7 @@ export default function SidenavAdministrador() {
             <ListItemIcon>
               <FaUsersGear />
             </ListItemIcon>
-            <ListItemText primary="Gestores" />
+            <ListItemText primary="Gerentes" />
             {openGestor ? <ExpandLess /> : <ExpandMore />}
           </ListItemButton>
           <Collapse in={openGestor} timeout="auto" unmountOnExit>
@@ -168,13 +168,13 @@ export default function SidenavAdministrador() {
               <ListItemButton
                 sx={{ pl: 4 }}
                 onClick={() => {
-                  navigate("/admin/Gestores");
+                  navigate("/admin/Gerentes");
                 }}
               >
                 <ListItemIcon>
                   <FaHospitalUser />
                 </ListItemIcon>
-                <ListItemText primary="Listado de Gestores" />
+                <ListItemText primary="Listado de Gerentes" />
               </ListItemButton>
 
               <ListItemButton
@@ -186,7 +186,7 @@ export default function SidenavAdministrador() {
                 <ListItemIcon>
                   <FaUserPlus />
                 </ListItemIcon>
-                <ListItemText primary="Nuevo Gestor" />
+                <ListItemText primary="Nuevo Gerente" />
               </ListItemButton>
             </List>
           </Collapse>

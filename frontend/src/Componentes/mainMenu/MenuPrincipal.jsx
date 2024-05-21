@@ -20,7 +20,7 @@ import CitasVeterinario from '../../rutas/Veterinario/CitasVeterinario';
 import MiPerfilVeterinario from '../../rutas/Veterinario/MiPerfilVeterinario';
 import InicioAdministrador from '../../rutas/Administrador/InicioAdministrador';
 import ListadoClinicas from '../../rutas/Administrador/ListadoClinicas';
-import ListadoGestores from '../../rutas/Administrador/ListadoGestores';
+import ListadoGerentes from '../../rutas/Administrador/ListadoGerentes';
 import CrearClinica from '../../rutas/Administrador/CrearClinica';
 import CrearGerente from '../../rutas/Administrador/CrearGerente';
 
@@ -49,7 +49,7 @@ const MenuPrincipal = () => {
           <Route path="/Veterinario/Citas" element={<CitasVeterinario/>} />
           <Route path="/admin" element={<InicioAdministrador/>} />
           <Route path="/admin/Clinicas" element={<ListadoClinicas/>} />
-          <Route path="/admin/Gestores" element={<ListadoGestores/>} />
+          <Route path="/admin/Gerentes" element={<ListadoGerentes/>} />
           <Route path="/admin/CrearClinica" element={<CrearClinica/>} />
           <Route path="/admin/CrearGerente" element={<CrearGerente/>} />
 
