@@ -168,7 +168,7 @@ async def obtener_perfil(token: str = Depends(JWTBearer())):
     mycursor = db.cursor()
 
     mycursor.execute("""
-            SELECT nombre, email
+            SELECT *
             FROM Usuario
             WHERE username = %s
             """, (usuario_username,))
@@ -181,7 +181,7 @@ async def obtener_perfil(token: str = Depends(JWTBearer())):
 
     mycursor.close()
     # Devuelve la información del perfil en formato JSON
-    return JSONResponse(content={"nombre": perfil[0], "email": perfil[1]})
+    return JSONResponse(content={"username": perfil[0], "nombre": perfil[2], "apellidos": perfil[3], "telefono": perfil[4], "email": perfil[5] })
 
 
 # Endpoint para registrar una mascota

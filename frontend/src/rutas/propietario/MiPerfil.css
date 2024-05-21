@@ -1,0 +1,23 @@
+.perfil-box {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 20px;
+    background-color: #615f90;
+    color:white;
+    padding:20px;
+    -webkit-box-shadow: 10px 10px 40px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 10px 10px 40px 0px rgba(0,0,0,0.75);
+    box-shadow: 10px 10px 40px 0px rgba(0,0,0,0.75);
+}
+
+.perfil-box img {
+    border: 1px solid white;
+    border-radius: 50px;
+    -webkit-box-shadow: 10px 10px 40px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 10px 10px 40px 0px rgba(0,0,0,0.75);
+    box-shadow: 10px 10px 40px 0px rgba(0,0,0,0.75);
+}
+
+.perfil-nombre {
+    color:#a09cee;
+}
