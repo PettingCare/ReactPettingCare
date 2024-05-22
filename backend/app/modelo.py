@@ -72,3 +72,18 @@ class clinica_registroSchema(BaseModel):
                 "gerente": "username"
             }
         }
+    
+#Registro Citas (NIL)
+class citas_registroSchema(BaseModel):
+    nombre: str = Field(...)
+    hora: str = Field(...)
+    fechaCita: str = Field(...)
+    
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "nombre": "clinica",
+                "direccion": "calle 24 1-1",
+                "fechaCitas": "2024-05-13T22:00:00.000Z"
+            }
+        } 

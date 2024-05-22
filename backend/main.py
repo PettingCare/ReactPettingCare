@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException, Body, Depends
 from pydantic import BaseModel
-from app.modelo import usuario_loginSchema, usuario_registroSchema,mascota_registroSchema,clinica_registroSchema
+from app.modelo import usuario_loginSchema, usuario_registroSchema,mascota_registroSchema,clinica_registroSchema, citas_registroSchema
 from app.auth.auth_handler import signJWT
 from app.auth.auth_bearer import JWTBearer
 from app.auth.utils import hash_pass, verifica_password,invalidate_token, is_token_invalid
@@ -410,4 +410,68 @@ async def obtener_centros():
     return centros
 
 
+#ENDPOINT CITAS
+#REGISTRO CITAS (NIL)
+
+@app.post("/citas/crear")
+async def registro_mascota(token: str = Depends(JWTBearer()),cita: citas_registroSchema= Body(...)):
+    print(token)
+    # Decodificar el token para obtener el username del usuario
+    usuario_username = decodeJWT(token)
+
+    # Consulta a la base de datos para obtener el perfil de la mascota
+    mycursor = db.cursor()
+
+
+    mycursor.execute("""
+        INSERT INTO Citas (nombre, nacimiento, especie, propietario)
+                    VALUES (%s, %s, %s, %s)
+
+                    """, (cita.nombre,cita.fechaNacimiento,cita.especie, usuario_username))
+
+    db.commit()
+                    # Ahora, para obtener los valores de nombre y email después de la inserción:
+    mycursor.execute("SELECT nombre FROM Mascota WHERE nombre = %s and propietario = %s", (cita.nombre,usuario_username))
+    registro_exitoso = mycursor.fetchall()
+                
+    mycursor.close()
+
+    if registro_exitoso:
+    # Si hay resultados, construye la respuesta con los nombres de las mascotas encontradas
+        nombres_mascotas = [registro[0] for registro in registro_exitoso]
+        return {"message": "Mascota añadida correctamente ", "data": {"nombres_mascotas": nombres_mascotas}}
+    else:
+    # Si no hay resultados, devuelve un mensaje indicando que no se encontraron mascotas
+        return {"message": "No se ha podido registrar"}
+    
+#REGISTRO CITAS (NIL)
+
+@app.get("/Propietario/misCitas/")
+async def obtener_citas(token: str = Depends(JWTBearer())):
+
+    if is_token_invalid(token):
+         raise HTTPException(status_code=401, detail="El token ya está invalidado")
+
+    # Decodificar el token para obtener el username del usuario
+    usuario_username = decodeJWT(token)
+    
+    # Consulta a la base de datos para obtener el perfil del usuario
+    mycursor = db.cursor()
+
+    mycursor.execute("""
+            SELECT nombre, nacimiento, especie 
+            FROM Citas
+            WHERE propietario = %s
+            """, (usuario_username,))
+    citas = mycursor.fetchall()
+    
+    # Si no se encuentra el perfil, devuelve un error
+    # if perfil is None:
+    if not citas:
+        raise HTTPException(status_code=404, detail=f"No hay citas asociadas al username {usuario_username}")
+    
+    for row in citas:
+        print(row)
+    mycursor.close()
+    return citas
 #FRONT

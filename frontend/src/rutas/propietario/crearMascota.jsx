@@ -117,10 +117,10 @@ useEffect(() => {
                   </div>
                   <div className="input-nacimiento">
                   <SelectEspecieProp
-                  value={especie}
+                  value={especie} 
                   onChange={(value) => setEspecie(value)}
                   />
-                  </div>
+                  </div> 
                   <button type='submit'>Registrar mascota</button>
                 </form>
               </div>

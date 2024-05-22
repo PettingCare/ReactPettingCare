@@ -21,14 +21,14 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import Collapse from '@mui/material/Collapse';
 import { GiDogHouse } from "react-icons/gi";
 import { FaDog } from "react-icons/fa6";
-
-import { FaHome, FaPlug  } from 'react-icons/fa';
+import { FaHome, FaRegCalendarPlus, FaRegCalendar  } from 'react-icons/fa';
 import { BiSolidHelpCircle } from "react-icons/bi";
 import { TfiStatsUp } from "react-icons/tfi";
 import { useNavigate } from 'react-router-dom';
 import { usoAppInstance } from '../../appInstance';
 import './Sidenav.css'
 import '../../App.css'
+import { CiCalendar } from "react-icons/ci";
 const drawerWidth = 240;
 
 
@@ -173,6 +173,34 @@ export default function Sidenav() {
               </ListItemIcon>
               <ListItemText primary="Citas" sx={{opacity: open ? 1 : 0}}/>
             </ListItemButton>
+
+{/* REGISTRO CITAS (NIL) */}
+
+          <ListItemButton onClick={handleClick2}>
+                        <ListItemIcon>
+                          <MdDateRange />
+                        </ListItemIcon>
+                        <ListItemText primary="Citas" />
+                        {abierto2 ? <ExpandLess /> : <ExpandMore />}
+                      </ListItemButton>
+                      <Collapse in={abierto2} timeout="auto" unmountOnExit>
+                        <List component="div" disablePadding>
+                          <ListItemButton sx={{ pl: 4 }} onClick={()=> {navigate("/Citas")}}>
+                            <ListItemIcon>
+                              <FaRegCalendar />
+                            </ListItemIcon>
+                            <ListItemText primary="Mis Citas" />
+                          </ListItemButton>
+
+                          <ListItemButton sx={{ pl: 4 }} onClick={()=> {navigate("/CrearMascota")}}>
+                            <ListItemIcon>
+                              <FaRegCalendarPlus />
+                            </ListItemIcon>
+                            <ListItemText primary="Nueva Cita" />
+                          </ListItemButton>
+                        </List>
+                      </Collapse>
+
 
           </ListItem>
           <ListItem disablePadding sx={{display:"block"}} onClick={()=> {navigate("/Ayuda")}}>
