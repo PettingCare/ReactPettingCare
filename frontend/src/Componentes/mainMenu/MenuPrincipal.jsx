@@ -23,6 +23,7 @@ import ListadoClinicas from '../../rutas/Administrador/ListadoClinicas';
 import ListadoGerentes from '../../rutas/Administrador/ListadoGerentes';
 import CrearClinica from '../../rutas/Administrador/CrearClinica';
 import CrearGerente from '../../rutas/Administrador/CrearGerente';
+import CrearCitas from '../../rutas/propietario/crearCitas';
 
 
 const MenuPrincipal = () => {
@@ -38,6 +39,7 @@ const MenuPrincipal = () => {
           <Route path="/Clinica/ayuda" element={<AyudaClinica/>} />
           <Route path="/citas" element={<Citas/>} />
           <Route path="/CrearMascota" element={<CrearMascota/>} />
+          <Route path="/CrearCita" element={<CrearCitas/>} />
           <Route path="/MiPerfil" element={<MiPerfil/>} />
           <Route path="/Clinica/Inicio" element={<InicioClinica/>} />
           <Route path="/Clinica/MisCentros" element={<MisCentros/>} />

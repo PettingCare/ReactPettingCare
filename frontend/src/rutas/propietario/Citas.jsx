@@ -24,62 +24,7 @@ export default function Citas() {
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
       <h1>Citas</h1>
       <Box height={40}/>
-      <Grid container spacing={2} >
-          <Grid xs={8}>
-            <Stack direction="row" spacing={2}>
-            <Card sx={{ maxWidth: 345 }}>
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  Prueba1
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Lizards are a widespread group of squamate reptiles, with over 6,000
-                  species, ranging across all continents except Antarctica
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Switch/>
-              </CardActions>
-            </Card>
-            <Card sx={{ maxWidth: 345 }}>
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  Prueba2
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Lizards are a widespread group of squamate reptiles, with over 6,000
-                  species, ranging across all continents except Antarctica
-                </Typography>
-              </CardContent>
-              <CardActions>
-              </CardActions>
-            </Card>
-            </Stack>
-          </Grid>
-          <Grid xs={4}>
-
-          </Grid>
-        </Grid>
-      {/* Grid 1, con 2 cards */}
-        <Grid container spacing={2}>
-          <Grid xs={8}>
-            <Card sx={{ maxWidth: 345 }}>
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                Prueba3
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Lizards are a widespread group of squamate reptiles, with over 6,000
-                  species, ranging across all continents except Antarctica
-                </Typography>
-              </CardContent>
-              <CardActions>
-              </CardActions>
-            </Card>
-          </Grid>
-          <Grid xs={4}>
-          </Grid>
-        </Grid>
+      
       </Box>
     </Box>
     </>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './CrearCitas.css';
+import './CrearMascota.css';
 import Sidenav from '../../Componentes/Sidenav/Sidenav';
 import Box from '@mui/material/Box';
 import Navbar from '../../Componentes/Navbar';
@@ -10,7 +10,7 @@ import SelectEspecieProp from '../../Componentes/Selects/SelectEspecieProp';
 import { LuDog } from "react-icons/lu";
 import dayjs from 'dayjs';
 
-export default function NuevaCita() {
+export default function CrearCitas() {
   const BASE_URL = 'http://localhost:8000';
   const navigate = useNavigate();
 
@@ -43,9 +43,10 @@ export default function NuevaCita() {
           "Authorization": `Bearer ${accessToken}`
         },
         body: JSON.stringify({
-          motivo: motivoCita,
+          nombre : motivoCita,
           fechaCita: fecha,
           horaCita: hora[0],
+          
         }),
       });
       const data = await response.json();
@@ -96,7 +97,7 @@ useEffect(() => {
           <div className="login-formMascota">
             <div className={"wrapperMascota"}>
               <div className="form-box loginMascota">
-                <form onSubmit={registroMascotaEP}>
+                <form onSubmit={nuevaCitaEP}>
                   <h1>Nueva Cita</h1>
                   <div className="input-boxMascota">
                     <input
@@ -104,7 +105,7 @@ useEffect(() => {
                       name="motivoCita"
                       placeholder='Motivo Cita'
                       value={motivoCita}
-                      onChange={(e) => setMotivoCita(e.target.value)}
+                      // onChange={(e) => setMotivoCita(e.target.value)}
                       required
                     />
                     <LuDog className='iconoMascota' />

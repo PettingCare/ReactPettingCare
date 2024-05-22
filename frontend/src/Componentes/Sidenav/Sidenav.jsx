@@ -92,9 +92,14 @@ export default function Sidenav() {
 
 
   const [abierto, setAbierto] = React.useState(true);
+  const [abierto2, setAbierto2] = React.useState(true);
 
   const handleClick = () => {
     setAbierto(!abierto);
+  };
+
+  const handleClick2 = () => {
+    setAbierto2(!abierto2);
   };
 
 
@@ -155,24 +160,7 @@ export default function Sidenav() {
 
 
 
-          <ListItem disablePadding sx={{display:"block"}} onClick={()=> {navigate("/Citas")}}>
-            <ListItemButton
-              sx={{
-                minHeight:48,
-                justifyContent: open ? "initial" : "center",
-                px: 2.5,
-              }}
-            >
-              <ListItemIcon
-                  sx={{
-                  minWidth:0,
-                  mr: open ? 3 : "auto",
-                  justifyContent: "center",
-                  }}>
-               <MdDateRange/>
-              </ListItemIcon>
-              <ListItemText primary="Citas" sx={{opacity: open ? 1 : 0}}/>
-            </ListItemButton>
+        
 
 {/* REGISTRO CITAS (NIL) */}
 
@@ -192,7 +180,7 @@ export default function Sidenav() {
                             <ListItemText primary="Mis Citas" />
                           </ListItemButton>
 
-                          <ListItemButton sx={{ pl: 4 }} onClick={()=> {navigate("/CrearMascota")}}>
+                          <ListItemButton sx={{ pl: 4 }} onClick={()=> {navigate("/CrearCita")}}>
                             <ListItemIcon>
                               <FaRegCalendarPlus />
                             </ListItemIcon>
@@ -202,7 +190,6 @@ export default function Sidenav() {
                       </Collapse>
 
 
-          </ListItem>
           <ListItem disablePadding sx={{display:"block"}} onClick={()=> {navigate("/Ayuda")}}>
             <ListItemButton
               sx={{
