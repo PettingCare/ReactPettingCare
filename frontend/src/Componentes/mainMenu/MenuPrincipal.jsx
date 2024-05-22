@@ -14,6 +14,8 @@ import InicioClinica from '../../rutas/Clinica/InicioClinica';
 import InicioVeterinario from '../../rutas/Veterinario/InicioVeterinario';
 import CrearCentro from '../../rutas/Clinica/CrearCentro';
 import MisCentros from '../../rutas/Clinica/MisCentros';
+import ListadoVeterinarios from '../../rutas/Clinica/ListadoVeterinarios';
+import CrearVeterinario from '../../rutas/Clinica/CrearVeterinario';
 import AyudaClinica from '../../rutas/Clinica/AyudaClinica';
 import AyudaVeterinario from '../../rutas/Veterinario/AyudaVeterinario';
 import CitasVeterinario from '../../rutas/Veterinario/CitasVeterinario';
@@ -44,7 +46,8 @@ const MenuPrincipal = () => {
           <Route path="/Clinica/Inicio" element={<InicioClinica/>} />
           <Route path="/Clinica/MisCentros" element={<MisCentros/>} />
           <Route path="/Clinica/CrearCentro" element={<CrearCentro/>} />
-          <Route path="/clinica/:clinicaId/crear-veterinario" element={<CrearCentro/>} />
+          <Route path="/Clinica/Veterinarios" element={<ListadoVeterinarios/>} />
+          <Route path="/Clinica/:clinicaId/crear-veterinario" element={<CrearVeterinario/>} />
           <Route path="/Veterinario/Inicio" element={<InicioVeterinario/>} />
           <Route path="/Veterinario/MiPerfil" element={<MiPerfilVeterinario/>} />
           <Route path="/Veterinario/ayuda" element={<AyudaVeterinario/>} />
