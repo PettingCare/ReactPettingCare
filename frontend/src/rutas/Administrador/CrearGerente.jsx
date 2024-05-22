@@ -8,12 +8,17 @@ import { FaUserAstronaut } from "react-icons/fa6";
 import Box from "@mui/material/Box";
 import Navbar from "../../Componentes/Navbar";
 import SidenavAdministrador from "../../Componentes/Sidenav/SidenavAdministrador";
+import { useNavigate } from 'react-router-dom';
 import "../../Componentes/Login-Registro/LoginRegistro.css";
 
 const BASE_URL = "http://localhost:8000";
 
-const CrearGerente = () => {
-  const registrarGerente = async (event) => {
+const CrearGerente = () => 
+{
+  const navigate = useNavigate();
+
+  const registrarGerente = async (event) => 
+  {
     event.preventDefault();
     // Obtener los valores de los campos del formulario
     const { nombre, apellidos, email, password,username,telefono } = event.target.elements;
@@ -41,8 +46,9 @@ const CrearGerente = () => {
       // Verificar el estado de la respuesta
       if (response.ok) {
         // Registro exitoso
-        console.log('Registro exitoso');
-        window.location.reload();// enviamos al login nuevamente
+        alert('Registro exitoso');
+        navigate('/admin/Gerentes')
+        // window.location.reload();// enviamos al login nuevamente
       } else {
 
         const errorData = await response.json();

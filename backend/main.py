@@ -342,6 +342,7 @@ async def registrar_clinica(clinica: clinica_registroSchema=Body(...)):
     p = (nombre, gerente, )
 
     cursor = db.cursor()
+    print("""INSERT INTO Clinica (nombre, Gerente) VALUES (%s, %s)""", p)
     cursor.execute("""INSERT INTO Clinica (nombre, Gerente) VALUES (%s, %s)""", p)
     db.commit()
     print("Clinica ha sido insertado")
@@ -351,12 +352,16 @@ async def registrar_clinica(clinica: clinica_registroSchema=Body(...)):
 @app.get("/UserGerentes")
 async def obtener_gerentes():
     cursor = db.cursor()
-    cursor.execute("""SELECT username FROM GerenteClinica;""")
+    cursor.execute("""SELECT Usuario.username, Usuario.nombre, Usuario.apellidos
+                      FROM Usuario 
+                      INNER JOIN GerenteClinica ON GerenteClinica.username = Usuario.username
+                      LEFT JOIN Clinica ON Clinica.Gerente = GerenteClinica.username WHERE Clinica.Gerente IS NULL;""")
     gerentes = cursor.fetchall()
     cursor.close()
+    columns = ['username', 'nombres']
     data = []
     for gerente in gerentes:
-        data.append(gerente)
+        data.append(zip(columns, [gerente[0], gerente[1] + ' ' + gerente[2]]))
     return data
 
 @app.get("/Especies/")

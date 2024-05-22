@@ -3,6 +3,7 @@ import { FaHospitalUser, FaUsersGear } from "react-icons/fa6";
 import '../../Componentes/Login-Registro/LoginRegistro.css'
 import Box from '@mui/material/Box';
 import Navbar from '../../Componentes/Navbar';
+import { Navigate, useNavigate } from 'react-router-dom';
 import SidenavAdministrador from '../../Componentes/Sidenav/SidenavAdministrador';
 import './CrearClinica.css'
 
@@ -10,6 +11,7 @@ const BASE_URL = "http://localhost:8000";
 
 const CrearClinica = () => 
 {
+  const navigate = useNavigate();
   const [gerentes, setGerentes] = useState([])
   
   useEffect(() => {
@@ -18,8 +20,7 @@ const CrearClinica = () =>
         const response = await fetch(`${BASE_URL}/UserGerentes`)
         if (response.ok) {
           const data = await response.json()
-          console.log(data)
-
+          // console.log(data)
           setGerentes(data)
         }
       } catch(error) {
@@ -32,8 +33,8 @@ const CrearClinica = () =>
   const registrarClinica = async (event) => {
     event.preventDefault();
     const {nombre, gerente} = event.target.elements;
-    console.log(nombre.value)
-    console.log(gerente.value)
+    // console.log(nombre.value)
+    // console.log(gerente.options[gerente.selectedIndex].value)
     try {
       const response = await fetch(`${BASE_URL}/Clinicas/registro`, {
         method: 'POST',
@@ -45,6 +46,10 @@ const CrearClinica = () =>
           gerente: gerente.value
         })
       });
+      if (response.ok) {
+        alert('Clínica registrada exitosamente.')
+        navigate('/admin/Clinicas')
+      }
     } catch (error) {
       console.log(error)
     }
@@ -71,10 +76,10 @@ const CrearClinica = () =>
                         <div className='gerente'>
                           <label>Gerente</label>
                           <select className='selectGerente' name='gerente' >
-                            { gerentes.map((nombre, index) => {
+                            { gerentes.map((e, key) => {
                               return (
-                                <option key={index} value="">
-                                  {nombre}
+                                <option key={key} value={e.username}>
+                                  {e.nombres}
                                 </option>
                               )
                             })}

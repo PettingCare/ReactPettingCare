@@ -61,7 +61,7 @@ const ListadoGerentes = () => {
     <Navbar/>
     <Box height={40}/>
     <Box sx={{  display: 'flex'}}>
-        <SidenavAdministrador/>
+      <SidenavAdministrador/>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <h1>Listado de Gerentes</h1>
         <Box height={300}>
