@@ -212,7 +212,7 @@ async def obtener_perfil(token: str = Depends(JWTBearer())):
     mycursor = db.cursor()
 
     mycursor.execute("""
-            SELECT nombre, email
+            SELECT *
             FROM Usuario
             WHERE username = %s
             """, (usuario_username,))
@@ -225,7 +225,8 @@ async def obtener_perfil(token: str = Depends(JWTBearer())):
 
     mycursor.close()
     # Devuelve la información del perfil en formato JSON
-    return JSONResponse(content={"nombre": perfil[0], "email": perfil[1]})
+
+    return JSONResponse(content={"username": perfil[0], "nombre": perfil[2], "apellidos": perfil[3], "telefono": perfil[4], "email": perfil[5]})
 
 
 # Endpoint para registrar una mascota
@@ -288,16 +289,19 @@ async def obtener_mascotas(token: str = Depends(JWTBearer())):
             WHERE propietario = %s
             """, (usuario_username,))
     perfil = mycursor.fetchall()
+    mycursor.close()
 
     # Si no se encuentra el perfil, devuelve un error
     # if perfil is None:
     if not perfil:
         raise HTTPException(status_code=404, detail=f"No hay mascotas asociadas al username {usuario_username}")
-
+    columns = ['idMascota', 'nombre', 'nacimiento', 'especie']
+    data = []
     for row in perfil:
-        print(row)
-    mycursor.close()
-    return perfil
+        mascota = dict(zip(columns, row))
+        data.append(mascota)
+    print(data)
+    return data
     # Devuelve la información del perfil en formato JSON
     # return JSONResponse(content={"nombre": perfil[0], "email": perfil[1]})
     # FALTA PASARLO COMO UN JSON ?
