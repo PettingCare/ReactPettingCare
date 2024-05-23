@@ -40,7 +40,7 @@ const CrearGerente = () =>
           password: password.value,
           username: username.value,
           telefono: telefono.value
-          }),
+        }),
       });
 
       // Verificar el estado de la respuesta

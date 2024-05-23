@@ -51,6 +51,44 @@ async def leer_usuarios():
     mycursor.close()
     return items
 
+@app.post('/veterinario/registro')
+async def registro_veterinario(centro: int, veterinario: usuario_registroSchema=Body(...)):
+    mycursor = db.cursor()
+    try:
+        # Hash The Password DE MOMENTO NO, HAY QUE ARREGLAR LA BBDD
+        hashed_pass = hash_pass(veterinario.password)
+        veterinario.password = hashed_pass
+        mycursor.execute("SELECT username FROM Usuario WHERE username = %s", (veterinario.username,))
+        usuario_existente = mycursor.fetchone()
+        if usuario_existente:
+            #Ya se han registrado con el email indicado
+            raise HTTPException(status_code=401, detail="Username ya registrado")
+        else:
+            p = (veterinario.username, veterinario.password,
+                 veterinario.nombre,   veterinario.apellidos,
+                 veterinario.telefono, veterinario.email, )
+            mycursor.execute("""
+                INSERT INTO Usuario (username, password, nombre, apellidos, telefono, email)
+                VALUES (%s, %s, %s, %s, %s, %s)
+                """, p)
+
+            mycursor.execute("""
+                INSERT INTO VeterinarioCentro (username, idCentro)
+                VALUES (%s, %s)
+                """, (veterinario.username, centro, ))
+
+            db.commit()
+
+            # Ahora, para obtener los valores de nombre y email después de la inserción:
+            mycursor.execute("SELECT nombre, email FROM Usuario WHERE email = %s", (veterinario.email,))
+            registro_exitoso = mycursor.fetchone()
+
+            return {"message": "Registro exitoso", "data": {"nombre": registro_exitoso[0], "email": registro_exitoso[1]}}
+    finally:
+        # Leer todos los resultados antes de cerrar el cursor
+        mycursor.fetchall()
+        mycursor.close()
+
 @app.post("/gerente/registro")
 async def registro_gerente(usuario: usuario_registroSchema= Body(...)):
     mycursor = db.cursor()
@@ -348,6 +386,26 @@ async def registrar_clinica(clinica: clinica_registroSchema=Body(...)):
     print("Clinica ha sido insertado")
     cursor.close()
 
+@app.get('/Clinicas/Centros')
+async def obtener_centros_de_clinica(token: str = Depends(JWTBearer())):
+    if is_token_invalid(token):
+         raise HTTPException(status_code=401, detail="El token ya está invalidado")
+    username = decodeJWT(token)
+
+    cursor = db.cursor()
+    cursor.execute("""SELECT id FROM Clinica WHERE Gerente=%s""", (username, ))
+    idClinica = cursor.fetchone()
+    print(idClinica)
+
+    cursor.execute("""SELECT id, nombre FROM Centro WHERE idClinica=%s""",(idClinica))
+    rows = cursor.fetchall()
+    cursor.close()
+
+    columns = ['id', 'nombre']
+    data = []
+    for row in rows:
+        data.append(zip(columns, [row[0], row[1]]))
+    return data
 
 @app.get("/UserGerentes")
 async def obtener_gerentes():
