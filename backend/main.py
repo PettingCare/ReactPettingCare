@@ -568,7 +568,6 @@ def json_serial(obj):
 async def obtener_citas_veterinario(token: str = Depends(JWTBearer())):
     # if is_token_invalid(token):
     #      raise HTTPException(status_code=401, detail="El token ya está invalidado")
-
     # Decodificar el token
     usuario_username = decodeJWT(token)
     # Consulta a la base de datos

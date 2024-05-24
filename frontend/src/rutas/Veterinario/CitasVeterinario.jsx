@@ -13,7 +13,7 @@ import Switch from '@mui/material/Switch';
 import Stack from '@mui/material/Stack';
 import SidenavVeterinario from '../../Componentes/Sidenav/SidenavVeterinario';
 import NavbarVet from '../../Componentes/NavbarVet';
-import './CitasVeterinaro.css'
+import './CitasVeterinaro.css';
 
 
 export default function CitasVeterinario() {
@@ -93,7 +93,6 @@ export default function CitasVeterinario() {
                 <p><span>Nombre del propietario:</span> {cita.propietario}</p>
                 <p><span>Especie:</span> {cita.especie}</p>
                 <p><span>Centro:</span> {cita.centro}</p>
-
               </div>
             ))}
           </div>
