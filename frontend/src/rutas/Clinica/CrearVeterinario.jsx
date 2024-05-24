@@ -1,17 +1,77 @@
-import React, { useRef, useEffect, useState } from "react";
-import { FaHospitalUser, FaUsersGear } from "react-icons/fa6";
+import React, { useEffect, useState } from "react";
+import { FaHospitalUser } from "react-icons/fa6";
 import { RiLockPasswordFill  } from "react-icons/ri";
 import { IoMdMail } from "react-icons/io";
 import { FaUserAlt,FaPhoneAlt } from "react-icons/fa";
 import { IoIosEye, IoIosEyeOff  } from "react-icons/io";
 import { FaUserAstronaut } from "react-icons/fa6";
+import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Navbar from '../../Componentes/Navbar';
 import SidenavClinica from '../../Componentes/Sidenav/SidenavClinica';
+import '../Administrador/CrearClinica.css'
 
-const CrearVeterinario = () => {
+const BASE_URL = "http://localhost:8000";
+
+const CrearVeterinario = () => 
+{
+  const navigate = useNavigate();
+  const [centros, setCentros] = useState([])
+
+  useEffect(() => {
+    const getCentros = async (event) => {
+      try {
+        const token = JSON.parse(localStorage.getItem("token"));
+        const accessToken = token.access_token;
+
+        const response = await fetch(`${BASE_URL}/Clinicas/Centros`, {
+          method: 'GET',
+          headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${accessToken}`
+          }
+        })
+        if (response.ok) {
+          const data = await response.json()
+          console.log(data)
+          setCentros(data)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getCentros()
+  }, [])
   const registrarVeterinario = async(event) => {
-
+    event.preventDefault();
+    const {centro, nombre, apellidos, email, password, username, telefono} = event.target.elements;
+    console.log(centro.value)
+    const param = new URLSearchParams({centro: centro.value})
+  
+    // console.log(nombre.value)
+    // console.log(gerente.options[gerente.selectedIndex].value)
+    try {
+      const response = await fetch(`${BASE_URL}/veterinario/registro?` + param, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          nombre: nombre.value,
+          apellidos: apellidos.value,
+          email:email.value ,
+          password: password.value,
+          username: username.value,
+          telefono: telefono.value
+        })
+      });
+      if (response.ok) {
+        alert('Veterinario registrado exitosamente.')
+        navigate('/Clinica/Veterinarios')
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   /*toggle para pinchar en el ojo y que enseñe la contraseña*/
@@ -48,6 +108,21 @@ const CrearVeterinario = () => {
                 <div className="signup-form">
                   <div className="form-box registro">
                     <form action="" onSubmit={registrarVeterinario}>
+
+                    <div className="input-box">
+                        <div className='centro'>
+                          <label>Centro</label>
+                          <select className='selectCentro' name='centro' >
+                            { centros.map((e, key) => {
+                              return (
+                                <option key={key} value={e.id}>
+                                  {e.nombre}
+                                </option>
+                              )
+                            })}
+                          </select>
+                        </div>
+                      </div>
                       <div className="input-box">
                         <input
                           type="text"

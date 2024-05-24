@@ -17,7 +17,7 @@ const ListadoVeterinarios = () => {
     {
       field: 'apellidos',
       headerName: 'Apellidos',
-      width: 200
+      width: 150
     },
     {
       field: 'username',
@@ -33,32 +33,61 @@ const ListadoVeterinarios = () => {
       field: 'telefono',
       headerName: 'Teléfono',
       width: 110
+    },
+    {
+      field: 'centro',
+      headerName: 'Centro',
+      width: 150
     }
   ];
-    return (
-        <>
-        <Navbar/>
-        <Box height={40}/>
-        <Box sx={{  display: 'flex'}}>
-          <SidenavClinica/>
-          <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-            <h1>Listado de Veterinarios</h1>
-            <Box height={300}>
-              <Box sx={{ maxWidth: 800, margin: '0 auto', alignItems: 'center', width: '60%'}}>
-                <div style={{ height: '100%', width: '100%', minHeight:'100px' }}>
-                  <DataGrid
-                    rows={rows}
-                    columns={columns}
-                    getRowId={(row) => row.username}
-                    rowsPerPageOptions={[10]}
-                  />
-                </div>
-              </Box>
-            </Box>
+  useEffect(() => {
+    const getVeterinarios = async (event) => {
+      try {
+        const token = JSON.parse(localStorage.getItem("token"));
+        const accessToken = token.access_token;
+        const response = await fetch(`${BASE_URL}/Clinicas/Veterinarios`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            "Authorization": `Bearer ${accessToken}`
+          }
+        })
+        if (response.ok) {
+          const data = await response.json()
+          console.log(data)
+          setRows(data)
+        }
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    getVeterinarios()
+    return () => rows
+  }, [])
+  return (
+    <>
+    <Navbar/>
+    <Box height={40}/>
+    <Box sx={{  display: 'flex'}}>
+      <SidenavClinica/>
+      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+        <h1>Listado de Veterinarios</h1>
+        <Box height={300}>
+          <Box sx={{ maxWidth: 1000, margin: '0 auto', alignItems: 'center', width: '60%'}}>
+            <div style={{ height: '100%', width: '100%', minHeight:'100px' }}>
+              <DataGrid
+                rows={rows}
+                columns={columns}
+                getRowId={(row) => row.username}
+                rowsPerPageOptions={[10]}
+              />
+            </div>
           </Box>
         </Box>
-        </>
-      )
+      </Box>
+    </Box>
+    </>
+  )
 }
 
 export default ListadoVeterinarios;
