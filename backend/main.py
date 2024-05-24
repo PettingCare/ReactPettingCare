@@ -407,6 +407,28 @@ async def obtener_centros_de_clinica(token: str = Depends(JWTBearer())):
         data.append(zip(columns, [row[0], row[1]]))
     return data
 
+@app.get('/Clinicas/Veterinarios')
+async def obtener_veterinarios_centros(token: str = Depends(JWTBearer())):
+    if is_token_invalid(token):
+         raise HTTPException(status_code=401, detail="El token ya está invalidado")
+    gerente = decodeJWT(token)
+
+    cursor = db.cursor()
+    cursor.execute("""SELECT Usuario.username, Usuario.nombre, Usuario.apellidos, Usuario.telefono, Usuario.email, Centro.nombre AS centro
+                   FROM Usuario 
+                   INNER JOIN VeterinarioCentro ON Usuario.username = VeterinarioCentro.username
+                   INNER JOIN Centro ON VeterinarioCentro.idCentro = Centro.id
+                   LEFT JOIN Clinica ON Centro.idClinica = Clinica.id WHERE Clinica.Gerente=%s;""",(gerente,))
+    rows = cursor.fetchall()
+    print(rows)
+
+    columns=['username', 'nombre', 'apellidos', 'telefono', 'email', 'centro']
+    data = []
+    for veterinario in rows:
+        data.append(zip(columns, veterinario))
+    print(data)
+    return data
+
 @app.get("/UserGerentes")
 async def obtener_gerentes():
     cursor = db.cursor()
