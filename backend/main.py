@@ -8,8 +8,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.auth.auth_handler import decodeJWT
 from fastapi.responses import JSONResponse
 import mysql.connector
-from datetime import datetime
+from datetime import datetime, date
 from decouple import config
+import json
 
 db = mysql.connector.connect(
     host=config("host"),
@@ -475,3 +476,44 @@ async def obtener_citas(token: str = Depends(JWTBearer())):
     mycursor.close()
     return citas
 #FRONT
+
+
+def json_serial(obj):
+    if isinstance(obj, date):
+        return obj.isoformat()
+    raise TypeError(f"Type {type(obj)} not serializable")
+
+#Visualización citas veterinario
+@app.get("/Veterinario/citas/")
+async def obtener_citas_veterinario(token: str = Depends(JWTBearer())):
+    # if is_token_invalid(token):
+    #      raise HTTPException(status_code=401, detail="El token ya está invalidado")
+
+    # Decodificar el token
+    usuario_username = decodeJWT(token)
+    # Consulta a la base de datos
+    #mycursor = db.cursor()
+    mycursor = db.cursor(dictionary=True)
+
+    mycursor.execute("""
+            SELECT c.id, c.fecha, ce.nombre AS centro, m.nombre As mascota, m.especie, m.propietario FROM amep13.Cita c JOIN Centro ce ON c.idCentro=ce.id JOIN Mascota m ON m.idMascota=c.idMascota WHERE Veterinario = %s AND c.fecha >= current_date() ORDER BY c.fecha ASC;
+            """, (usuario_username,))
+    
+    rows = mycursor.fetchall()
+
+    # Si no se encuentra, devuelve un error
+    if not rows:
+        mycursor.close()
+        raise HTTPException(status_code=404, detail="Citas veterinario no encontrado")
+    
+    #column_names = [i[0] for i in mycursor.description]
+    #result_list = [dict(zip(column_names, row)) for row in rows]
+
+    mycursor.close()
+
+    citas_serializadas = json.loads(json.dumps(rows, default=json_serial))
+
+    # Devuelve la información de las citas del veterinario en formato JSON
+
+    #return JSONResponse(content=result_list, status_code=200)
+    return JSONResponse(content=citas_serializadas)

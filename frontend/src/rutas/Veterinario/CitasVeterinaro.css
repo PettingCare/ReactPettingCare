@@ -1,0 +1,28 @@
+.grid-citas{
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 20px;
+}
+
+.grid-citas div {
+    background-color: #615f90;
+    color:white;
+    padding:20px;
+    -webkit-box-shadow: 10px 10px 40px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 10px 10px 40px 0px rgba(0,0,0,0.75);
+    box-shadow: 10px 10px 40px 0px rgba(0,0,0,0.75);
+}
+
+.grid-citas h3 {
+    text-decoration: underline;
+    margin-bottom: 10px;
+}
+
+
+.grid-citas span{
+    font-weight: bold;
+}
+
+.citas-info {
+    margin-bottom: 10px;
+}
