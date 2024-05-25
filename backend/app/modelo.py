@@ -73,17 +73,19 @@ class clinica_registroSchema(BaseModel):
             }
         }
     
-#Registro Citas (NIL)
+
 class citas_registroSchema(BaseModel):
-    nombre: str = Field(...)
-    hora: str = Field(...)
+    nombreMascota: str = Field(...)
+    nombreCentro: str = Field(...)
+    nombreVeterinario: str = Field(...)
     fechaCita: str = Field(...)
-    
+
     class Config:
         json_schema_extra = {
             "example": {
-                "nombre": "clinica",
-                "direccion": "calle 24 1-1",
-                "fechaCitas": "2024-05-13T22:00:00.000Z"
+                "Nombre mascota": "clinica",
+                "Nombre centro": "nombre centro",
+                "Nombre Veterinario": "nombre Veterinario",
+                "FechaCita": "2024-05-13T22:00:00.000Z"
             }
         } 

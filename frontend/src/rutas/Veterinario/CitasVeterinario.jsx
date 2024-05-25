@@ -13,7 +13,7 @@ import Switch from '@mui/material/Switch';
 import Stack from '@mui/material/Stack';
 import SidenavVeterinario from '../../Componentes/Sidenav/SidenavVeterinario';
 import NavbarVet from '../../Componentes/NavbarVet';
-import './CitasVeterinaro.css';
+import './CitasVeterinario.css';
 
 
 export default function CitasVeterinario() {

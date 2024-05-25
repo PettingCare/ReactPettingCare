@@ -36,6 +36,12 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
+def json_serial(obj):
+    if isinstance(obj, date):
+        return obj.isoformat()
+    raise TypeError(f"Type {type(obj)} not serializable")
+
+
 # Endpoint para obtener todos los elementos
 @app.get("/")
 async def inicio():
@@ -491,11 +497,10 @@ async def obtener_centros():
     return centros
 
 
-#ENDPOINT CITAS
-#REGISTRO CITAS (NIL)
 
+# CREAR CITAS (PENDIENTE DE ARREGLAR)
 @app.post("/citas/crear")
-async def registro_mascota(token: str = Depends(JWTBearer()),cita: citas_registroSchema= Body(...)):
+async def registro_citas(token: str = Depends(JWTBearer()),cita: citas_registroSchema= Body(...)):
     print(token)
     # Decodificar el token para obtener el username del usuario
     usuario_username = decodeJWT(token)
@@ -525,7 +530,7 @@ async def registro_mascota(token: str = Depends(JWTBearer()),cita: citas_registr
     # Si no hay resultados, devuelve un mensaje indicando que no se encontraron mascotas
         return {"message": "No se ha podido registrar"}
     
-#REGISTRO CITAS (NIL)
+#REGISTRO CITAS (HECHO)
 
 @app.get("/Propietario/misCitas/")
 async def obtener_citas(token: str = Depends(JWTBearer())):
@@ -537,12 +542,29 @@ async def obtener_citas(token: str = Depends(JWTBearer())):
     usuario_username = decodeJWT(token)
     
     # Consulta a la base de datos para obtener el perfil del usuario
-    mycursor = db.cursor()
+    # mycursor = db.cursor(dictionary=True)
 
+    mycursor = db.cursor()
     mycursor.execute("""
-            SELECT nombre, nacimiento, especie 
-            FROM Citas
-            WHERE propietario = %s
+            
+        SELECT 
+            m.nombre AS NombreMascota, 
+            c.fecha AS FechaCita, 
+            cen.nombre AS NombreCentro, 
+            vc.username AS VeterinarioUsername
+        FROM 
+            Usuario u
+        JOIN 
+            Mascota m ON u.username = m.propietario
+        JOIN 
+            Cita c ON m.idMascota = c.idMascota
+        JOIN 
+            Centro cen ON c.idCentro = cen.id
+        JOIN 
+            VeterinarioCentro vc ON c.veterinario = vc.username
+        WHERE 
+            u.username = %s
+        AND c.fecha >= current_date() ORDER BY c.fecha ASC;
             """, (usuario_username,))
     citas = mycursor.fetchall()
     
@@ -551,17 +573,22 @@ async def obtener_citas(token: str = Depends(JWTBearer())):
     if not citas:
         raise HTTPException(status_code=404, detail=f"No hay citas asociadas al username {usuario_username}")
     
-    for row in citas:
-        print(row)
+    # for row in citas:
+    #     print(row)
     mycursor.close()
-    return citas
+
+    # Devuelve la información de las citas del veterinario en formato JSON
+
+    citas_serializadas = [
+        {
+            "NombreMascota": cita[0],
+            "FechaCita": cita[1],
+            "NombreCentro": cita[2],
+            "VeterinarioUsername": cita[3]
+        } for cita in citas
+    ]
+    return citas_serializadas
 #FRONT
-
-
-def json_serial(obj):
-    if isinstance(obj, date):
-        return obj.isoformat()
-    raise TypeError(f"Type {type(obj)} not serializable")
 
 #Visualización citas veterinario
 @app.get("/Veterinario/citas/")
