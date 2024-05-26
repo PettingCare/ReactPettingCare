@@ -77,15 +77,26 @@ class clinica_registroSchema(BaseModel):
 class citas_registroSchema(BaseModel):
     nombreMascota: str = Field(...)
     nombreCentro: str = Field(...)
-    nombreVeterinario: str = Field(...)
+    usernameVeterinario: str = Field(...)
     fechaCita: str = Field(...)
 
     class Config:
         json_schema_extra = {
             "example": {
-                "Nombre mascota": "clinica",
-                "Nombre centro": "nombre centro",
-                "Nombre Veterinario": "nombre Veterinario",
-                "FechaCita": "2024-05-13T22:00:00.000Z"
+                "nombreMascota": "nombre Mascota",
+                "nombreCentro": "nombre centro",
+                "usernameVeterinario": "Username Veterinario",
+                "fechaCita": "2024-05-13T22:00:00.000Z",
             }
         } 
+
+
+
+class MascotaRequest(BaseModel):
+    mascota: str
+
+class EspecieRequest(BaseModel):
+    especie: str
+
+class CentroRequest(BaseModel):
+    centro: str
