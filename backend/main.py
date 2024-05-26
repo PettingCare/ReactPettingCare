@@ -393,7 +393,7 @@ async def registrar_clinica(clinica: clinica_registroSchema=Body(...)):
     print("Clinica ha sido insertado")
     cursor.close()
 
-@app.get('/Clinicas/Centros', tags={"Clinica"})
+@app.get("/Clinicas/Centros", tags={"Clinica"})
 async def obtener_centros_de_clinica(token: str = Depends(JWTBearer())):
     if is_token_invalid(token):
          raise HTTPException(status_code=401, detail="El token ya está invalidado")
@@ -402,17 +402,19 @@ async def obtener_centros_de_clinica(token: str = Depends(JWTBearer())):
     cursor = db.cursor()
     cursor.execute("""SELECT id FROM Clinica WHERE Gerente=%s""", (username, ))
     idClinica = cursor.fetchone()
-    print(idClinica)
+    
 
-    cursor.execute("""SELECT id, nombre FROM Centro WHERE idClinica=%s""",(idClinica))
+    cursor.execute("""SELECT id,nombre, direccion FROM Centro WHERE idClinica=%s""",(idClinica))
     rows = cursor.fetchall()
     cursor.close()
 
-    columns = ['id', 'nombre']
+    columns = ['id', 'nombre','direccion']
     data = []
     for row in rows:
-        data.append(zip(columns, [row[0], row[1]]))
+        data.append(zip(columns, [row[0], row[1],row[2]]))
     return data
+
+
 
 @app.get('/Clinicas/Veterinarios', tags={"Clinica"})
 async def obtener_veterinarios_centros(token: str = Depends(JWTBearer())):
@@ -476,27 +478,6 @@ async def obtener_especies():
 
 #FALTA EL GET MASCOTA{ID}
 #FALTAN ENDPOINTS DE CITAS
-@app.get("/Centros", tags={"Centro"})
-async def obtener_centros():
-    # Consulta a la base de datos para obtener los centros disponibles
-    mycursor = db.cursor()
-
-    mycursor.execute("""
-            SELECT *
-            FROM Centro 
-            """)
-    centros = mycursor.fetchone()
-
-    # Si no se encuentra centros, devuelve un error
-    if not centros:
-        mycursor.close()
-        raise HTTPException(status_code=404, detail="No hay centros disponibles")
-
-    mycursor.close()
-    # Devuelve la información de los centros en formato JSON
-    return centros
-
-
 
 # CREAR CITAS (PENDIENTE DE ARREGLAR)
 @app.post("/citas/crear", tags={"Propietario"})
