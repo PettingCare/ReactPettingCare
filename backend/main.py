@@ -383,7 +383,7 @@ async def registrar_clinica(clinica: clinica_registroSchema=Body(...)):
     print("Clinica ha sido insertado")
     cursor.close()
 
-@app.get('/Clinicas/Centros', tags={"Clinica"})
+@app.get("/Clinicas/Centros", tags={"Clinica"})
 async def obtener_centros_de_clinica(token: str = Depends(JWTBearer())):
     if is_token_invalid(token):
          raise HTTPException(status_code=401, detail="El token ya está invalidado")
@@ -392,17 +392,19 @@ async def obtener_centros_de_clinica(token: str = Depends(JWTBearer())):
     cursor = db.cursor()
     cursor.execute("""SELECT id FROM Clinica WHERE Gerente=%s""", (username, ))
     idClinica = cursor.fetchone()
-    print(idClinica)
+    
 
-    cursor.execute("""SELECT id, nombre FROM Centro WHERE idClinica=%s""",(idClinica))
+    cursor.execute("""SELECT id,nombre, direccion FROM Centro WHERE idClinica=%s""",(idClinica))
     rows = cursor.fetchall()
     cursor.close()
 
-    columns = ['id', 'nombre']
+    columns = ['id', 'nombre','direccion']
     data = []
     for row in rows:
-        data.append(zip(columns, [row[0], row[1]]))
+        data.append(zip(columns, [row[0], row[1],row[2]]))
     return data
+
+
 
 @app.get('/Clinicas/Veterinarios', tags={"Clinica"})
 async def obtener_veterinarios_centros(token: str = Depends(JWTBearer())):
@@ -464,28 +466,41 @@ async def obtener_especies():
     return especies
 # Endpoint para agregar un nuevo elemento
 
-@app.get("/Centros", tags={"Centro"})
-async def obtener_centros():
-    # Consulta a la base de datos para obtener los centros disponibles
+#FALTA EL GET MASCOTA{ID}
+#FALTAN ENDPOINTS DE CITAS
+
+# CREAR CITAS (PENDIENTE DE ARREGLAR)
+@app.post("/citas/crear", tags={"Propietario"})
+async def registro_citas(token: str = Depends(JWTBearer()),cita: citas_registroSchema= Body(...)):
+    print(token)
+    # Decodificar el token para obtener el username del usuario
+    usuario_username = decodeJWT(token)
+
+    # Consulta a la base de datos para obtener el perfil de la mascota
     mycursor = db.cursor()
 
+
     mycursor.execute("""
-            SELECT *
-            FROM Centro 
-            """)
-    centros = mycursor.fetchone()
+        INSERT INTO Citas (nombre, nacimiento, especie, propietario)
+                    VALUES (%s, %s, %s, %s)
 
-    # Si no se encuentra centros, devuelve un error
-    if not centros:
-        mycursor.close()
-        raise HTTPException(status_code=404, detail="No hay centros disponibles")
+                    """, (cita.nombre,cita.fechaNacimiento,cita.especie, usuario_username))
 
+    db.commit()
+                    # Ahora, para obtener los valores de nombre y email después de la inserción:
+    mycursor.execute("SELECT nombre FROM Mascota WHERE nombre = %s and propietario = %s", (cita.nombre,usuario_username))
+    registro_exitoso = mycursor.fetchall()
+                
     mycursor.close()
-    # Devuelve la información de los centros en formato JSON
-    return centros
 
-
-
+    if registro_exitoso:
+    # Si hay resultados, construye la respuesta con los nombres de las mascotas encontradas
+        nombres_mascotas = [registro[0] for registro in registro_exitoso]
+        return {"message": "Mascota añadida correctamente ", "data": {"nombres_mascotas": nombres_mascotas}}
+    else:
+    # Si no hay resultados, devuelve un mensaje indicando que no se encontraron mascotas
+        return {"message": "No se ha podido registrar"}
+    
 #REGISTRO CITAS (HECHO)
 
 @app.get("/Propietario/misCitas/", tags={"Propietario"})
@@ -583,6 +598,29 @@ async def obtener_citas_veterinario(token: str = Depends(JWTBearer())):
 
     return JSONResponse(content=citas_serializadas)
 
+#Eliminación citas veterinario
+# Endpoint para eliminar una cita
+@app.delete("/Veterinario/citas/{id}")
+async def eliminar_cita(id: int, token: str = Depends(JWTBearer())):
+    try:
+        # Decodificar el token para obtener el username del usuario
+        usuario_username = decodeJWT(token)
+
+        mycursor = db.cursor()
+        
+        mycursor.execute("DELETE FROM Cita WHERE id = %s AND veterinario = %s", (id, usuario_username))
+
+        db.commit()
+
+        if mycursor.rowcount == 0:
+            raise HTTPException(status_code=404, detail="Cita no encontrada o no tienes permisos para eliminarla")
+        return {"message": "Cita eliminada correctamente"}
+
+    except mysql.connector.Error as err:
+        raise HTTPException(status_code=500, detail=str(err))
+
+    finally:
+        mycursor.close()
 
 
 
