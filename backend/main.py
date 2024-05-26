@@ -47,7 +47,7 @@ def json_serial(obj):
 async def inicio():
     return {"message" :"Main"}
 
-@app.get("/usuarios/")
+@app.get("/usuarios/", tags={"Administradores"})
 async def leer_usuarios():
     mycursor = db.cursor()
     mycursor.execute("SELECT * FROM Usuario")
@@ -58,7 +58,7 @@ async def leer_usuarios():
     mycursor.close()
     return items
 
-@app.post('/veterinario/registro')
+@app.post('/veterinario/registro', tags={"Centro"})
 async def registro_veterinario(centro: int, veterinario: usuario_registroSchema=Body(...)):
     mycursor = db.cursor()
     try:
@@ -96,7 +96,7 @@ async def registro_veterinario(centro: int, veterinario: usuario_registroSchema=
         mycursor.fetchall()
         mycursor.close()
 
-@app.post("/gerente/registro")
+@app.post("/gerente/registro", tags={"Administradores"})
 async def registro_gerente(usuario: usuario_registroSchema= Body(...)):
     mycursor = db.cursor()
     try:
@@ -236,17 +236,17 @@ async def logout_usuario(token: str = Depends(JWTBearer())):
     return {"message": "Sesión cerrada exitosamente"}
 
 
-@app.post("/pr_autenticar")
-async def prueba_bearer(token: str = Depends(JWTBearer())):
-    if is_token_invalid(token):
-        raise HTTPException(status_code=401, detail="El token ya está invalidado")
-    return {
-        "data": "estas dentro"
-    }
+# @app.post("/pr_autenticar")
+# async def prueba_bearer(token: str = Depends(JWTBearer())):
+#     if is_token_invalid(token):
+#         raise HTTPException(status_code=401, detail="El token ya está invalidado")
+#     return {
+#         "data": "estas dentro"
+#     }
 
 
 # Get para ver mi perfil
-@app.get("/perfil")
+@app.get("/perfil", tags={"Propietario"})
 async def obtener_perfil(token: str = Depends(JWTBearer())):
     # if is_token_invalid(token):
     #      raise HTTPException(status_code=401, detail="El token ya está invalidado")
@@ -275,7 +275,7 @@ async def obtener_perfil(token: str = Depends(JWTBearer())):
 
 
 # Endpoint para registrar una mascota
-@app.post("/mascotas/registro")
+@app.post("/mascotas/registro", tags={"Propietario"})
 async def registro_mascota(token: str = Depends(JWTBearer()),mascota: mascota_registroSchema= Body(...)):
     print(token)
     # Decodificar el token para obtener el username del usuario
@@ -316,7 +316,7 @@ async def registro_mascota(token: str = Depends(JWTBearer()),mascota: mascota_re
 
 
 # Endpoint para ver mis mascotas
-@app.get("/Mascotas/misMascotas/")
+@app.get("/Mascotas/misMascotas/", tags={"Propietario"})
 async def obtener_mascotas(token: str = Depends(JWTBearer())):
 
     if is_token_invalid(token):
@@ -351,7 +351,7 @@ async def obtener_mascotas(token: str = Depends(JWTBearer())):
     # return JSONResponse(content={"nombre": perfil[0], "email": perfil[1]})
     # FALTA PASARLO COMO UN JSON ?
 
-@app.get('/Gerentes')
+@app.get('/Gerentes', tags={"Administradores"})
 async def obtener_gerentes():
     cursor = db.cursor()
     cursor.execute("""SELECT Usuario.username, Usuario.nombre, Usuario.apellidos, 
@@ -365,7 +365,7 @@ async def obtener_gerentes():
         data.append(dict(zip(columns, gerente)))
     return data
 
-@app.get('/Clinicas')
+@app.get('/Clinicas', tags={"Administradores"})
 async def obtener_clinicas():
     cursor = db.cursor()
     cursor.execute("""SELECT Clinica.id, Clinica.nombre, Usuario.nombre,
@@ -380,7 +380,7 @@ async def obtener_clinicas():
         data.append(clinica)
     return data
 
-@app.post('/Clinicas/registro')
+@app.post('/Clinicas/registro', tags={"Administradores"})
 async def registrar_clinica(clinica: clinica_registroSchema=Body(...)):
     nombre = clinica.nombre
     gerente = clinica.gerente
@@ -393,7 +393,7 @@ async def registrar_clinica(clinica: clinica_registroSchema=Body(...)):
     print("Clinica ha sido insertado")
     cursor.close()
 
-@app.get('/Clinicas/Centros')
+@app.get('/Clinicas/Centros', tags={"Clinica"})
 async def obtener_centros_de_clinica(token: str = Depends(JWTBearer())):
     if is_token_invalid(token):
          raise HTTPException(status_code=401, detail="El token ya está invalidado")
@@ -414,7 +414,7 @@ async def obtener_centros_de_clinica(token: str = Depends(JWTBearer())):
         data.append(zip(columns, [row[0], row[1]]))
     return data
 
-@app.get('/Clinicas/Veterinarios')
+@app.get('/Clinicas/Veterinarios', tags={"Clinica"})
 async def obtener_veterinarios_centros(token: str = Depends(JWTBearer())):
     if is_token_invalid(token):
          raise HTTPException(status_code=401, detail="El token ya está invalidado")
@@ -436,7 +436,7 @@ async def obtener_veterinarios_centros(token: str = Depends(JWTBearer())):
     print(data)
     return data
 
-@app.get("/UserGerentes")
+@app.get("/UserGerentes", tags={"Clinica"})
 async def obtener_gerentes():
     cursor = db.cursor()
     cursor.execute("""SELECT Usuario.username, Usuario.nombre, Usuario.apellidos
@@ -451,7 +451,7 @@ async def obtener_gerentes():
         data.append(zip(columns, [gerente[0], gerente[1] + ' ' + gerente[2]]))
     return data
 
-@app.get("/Especies/")
+@app.get("/Especies/", tags={"Mascota"})
 async def obtener_especies():
     # Consulta a la base de datos para obtener las especies
     mycursor = db.cursor()
@@ -476,7 +476,7 @@ async def obtener_especies():
 
 #FALTA EL GET MASCOTA{ID}
 #FALTAN ENDPOINTS DE CITAS
-@app.get("/Centros")
+@app.get("/Centros", tags={"Centro"})
 async def obtener_centros():
     # Consulta a la base de datos para obtener los centros disponibles
     mycursor = db.cursor()
@@ -499,7 +499,7 @@ async def obtener_centros():
 
 
 # CREAR CITAS (PENDIENTE DE ARREGLAR)
-@app.post("/citas/crear")
+@app.post("/citas/crear", tags={"Propietario"})
 async def registro_citas(token: str = Depends(JWTBearer()),cita: citas_registroSchema= Body(...)):
     print(token)
     # Decodificar el token para obtener el username del usuario
@@ -532,7 +532,7 @@ async def registro_citas(token: str = Depends(JWTBearer()),cita: citas_registroS
     
 #REGISTRO CITAS (HECHO)
 
-@app.get("/Propietario/misCitas/")
+@app.get("/Propietario/misCitas/", tags={"Propietario"})
 async def obtener_citas(token: str = Depends(JWTBearer())):
 
     if is_token_invalid(token):
@@ -591,7 +591,7 @@ async def obtener_citas(token: str = Depends(JWTBearer())):
 #FRONT
 
 #Visualización citas veterinario
-@app.get("/Veterinario/citas/")
+@app.get("/Veterinario/citas/", tags={"Veterinario"})
 async def obtener_citas_veterinario(token: str = Depends(JWTBearer())):
     # if is_token_invalid(token):
     #      raise HTTPException(status_code=401, detail="El token ya está invalidado")
