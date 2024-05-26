@@ -1,4 +1,4 @@
-.grid-citas{
+.grid-citas {
     display: grid;
     grid-template-columns: auto auto;
     gap: 20px;
@@ -6,11 +6,11 @@
 
 .grid-citas div {
     background-color: #615f90;
-    color:white;
-    padding:20px;
-    -webkit-box-shadow: 10px 10px 40px 0px rgba(0,0,0,0.75);
-    -moz-box-shadow: 10px 10px 40px 0px rgba(0,0,0,0.75);
-    box-shadow: 10px 10px 40px 0px rgba(0,0,0,0.75);
+    color: white;
+    padding: 20px;
+    -webkit-box-shadow: 10px 10px 40px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 10px 10px 40px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 10px 10px 40px 0px rgba(0, 0, 0, 0.75);
 }
 
 .grid-citas h3 {
@@ -18,10 +18,28 @@
     margin-bottom: 10px;
 }
 
-.grid-citas span{
+.grid-citas span {
     font-weight: bold;
 }
 
 .citas-info {
     margin-bottom: 10px;
+}
+
+.btn-cerrar-cita {
+    border: none;
+    color: white;
+    padding: 14px 28px;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: #f44336;
+    text-decoration: none;
+}
+
+.btn-cerrar-cita:hover {
+    background: #da190b;
+}
+
+.mb {
+    margin-bottom: 20px;
 }

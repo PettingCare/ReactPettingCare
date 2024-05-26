@@ -596,3 +596,27 @@ async def obtener_citas_veterinario(token: str = Depends(JWTBearer())):
 
     #return JSONResponse(content=result_list, status_code=200)
     return JSONResponse(content=citas_serializadas)
+
+#Eliminación citas veterinario
+# Endpoint para eliminar una cita
+@app.delete("/Veterinario/citas/{id}")
+async def eliminar_cita(id: int, token: str = Depends(JWTBearer())):
+    try:
+        # Decodificar el token para obtener el username del usuario
+        usuario_username = decodeJWT(token)
+
+        mycursor = db.cursor()
+        
+        mycursor.execute("DELETE FROM Cita WHERE id = %s AND veterinario = %s", (id, usuario_username))
+
+        db.commit()
+
+        if mycursor.rowcount == 0:
+            raise HTTPException(status_code=404, detail="Cita no encontrada o no tienes permisos para eliminarla")
+        return {"message": "Cita eliminada correctamente"}
+
+    except mysql.connector.Error as err:
+        raise HTTPException(status_code=500, detail=str(err))
+
+    finally:
+        mycursor.close()
