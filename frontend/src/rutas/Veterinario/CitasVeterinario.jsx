@@ -74,6 +74,32 @@ export default function CitasVeterinario() {
 
   }, []);
 
+  const eliminarCita = (id) => {
+    const confirmDelete = window.confirm("Se va a eliminar la cita. ¿Estás seguro?");
+    if (confirmDelete) {
+      const token = JSON.parse(localStorage.getItem("token"));
+      const accessToken = token.access_token;
+      console.log("r: "+accessToken);
+
+      fetch(`${BASE_URL}/Veterinario/citas/${id}`, {
+        method: 'DELETE',
+        headers: {
+          "Authorization": `Bearer ${accessToken}`
+        }
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HYYP error! status: $(response.status)`);
+          } 
+          return response.json();
+        })
+        .then(() => {
+          setCitas(citas.filter(cita => cita.id !== id));
+        })
+        .catch(error => console.error("Error:", error));
+    }
+  };
+
   return (
     <>
 
@@ -92,7 +118,8 @@ export default function CitasVeterinario() {
                 <p><span>Nombre mascota:</span> {cita.mascota}</p>
                 <p><span>Nombre del propietario:</span> {cita.propietario}</p>
                 <p><span>Especie:</span> {cita.especie}</p>
-                <p><span>Centro:</span> {cita.centro}</p>
+                <p className='mb'><span>Centro:</span> {cita.centro}</p>
+                <a href="#" onClick={() => eliminarCita(cita.id)} className='btn-cerrar-cita'>Cerrar</a>
               </div>
             ))}
           </div>

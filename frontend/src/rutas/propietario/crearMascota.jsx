@@ -20,15 +20,13 @@ export default function CrearMascota() {
 
 
 
-// POST CORRECTO, DESCOMENTAR AL HACER EL ARREGLO
   const registroMascotaEP = async (event) => {
     event.preventDefault();
     if (!nombreMascota || !fNacimiento || !especie) {
-      console.error('Por favor, complete todos los campos.');
+      alert('Por favor, complete todos los campos.');
       return;
     }
     try {
-      // const token = JSON.parse(localStorage.getItem("token"));
       const token = JSON.parse(localStorage.getItem("token"));
       const accessToken = token.access_token;
       console.log(accessToken);
