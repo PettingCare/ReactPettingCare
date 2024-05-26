@@ -505,7 +505,7 @@ async def obtener_citas(token: str = Depends(JWTBearer())):
             
         SELECT 
             m.nombre AS NombreMascota, 
-            c.fecha AS FechaCita, 
+            DATE_FORMAT(c.fecha, '%Y-%m-%d %H:%i') AS FechaCita, 
             cen.nombre AS NombreCentro, 
             vc.username AS VeterinarioUsername
         FROM 
@@ -546,6 +546,7 @@ async def obtener_citas(token: str = Depends(JWTBearer())):
     return citas_serializadas
 #FRONT
 
+
 #Visualización citas veterinario
 @app.get("/Veterinario/citas/", tags={"Veterinario"})
 async def obtener_citas_veterinario(token: str = Depends(JWTBearer())):
@@ -556,9 +557,12 @@ async def obtener_citas_veterinario(token: str = Depends(JWTBearer())):
     # Consulta a la base de datos
     #mycursor = db.cursor()
     mycursor = db.cursor(dictionary=True)
+            # DATE_FORMAT(c.fecha, '%Y-%m-%d %H:%i:%s') AS fecha, 
 
     mycursor.execute("""
-            SELECT c.id, c.fecha, ce.nombre AS centro, m.nombre As mascota, m.especie, m.propietario
+            SELECT c.id,
+            DATE_FORMAT(c.fecha, '%Y-%m-%d %H:%i') AS fecha,             
+            ce.nombre AS centro, m.nombre As mascota, m.especie, m.propietario
             FROM amep13.Cita c 
             JOIN Centro ce ON c.idCentro=ce.id JOIN Mascota m ON m.idMascota=c.idMascota
             WHERE Veterinario = %s AND c.fecha >= current_date() ORDER BY c.fecha ASC;
