@@ -285,15 +285,23 @@ async def registro_mascota(token: str = Depends(JWTBearer()),mascota: mascota_re
     # Consulta a la base de datos para obtener el perfil del usuario
     mycursor = db.cursor()
 
-    mycursor.execute("""
-        INSERT INTO Mascota (nombre, nacimiento, especie, propietario)
-                    VALUES (%s, %s, %s, %s)
+    mycursor.execute("SELECT count(*) FROM Mascota WHERE nombre = %s", (mascota.nombre,))
+    
+    mascotas_nombre_num = mycursor.fetchone()[0]
 
-                    """, (mascota.nombre,mascota.fechaNacimiento,mascota.especie, usuario_username))
-    db.commit()
-                    # Ahora, para obtener los valores de nombre y email después de la inserción:
-    mycursor.execute("SELECT nombre FROM Mascota WHERE nombre = %s and propietario = %s", (mascota.nombre,usuario_username))
-    registro_exitoso = mycursor.fetchall()
+    if mascotas_nombre_num < 1:
+        mycursor.execute("""
+            INSERT INTO Mascota (nombre, nacimiento, especie, propietario)
+                        VALUES (%s, %s, %s, %s)
+
+                        """, (mascota.nombre,mascota.fechaNacimiento,mascota.especie, usuario_username))
+        db.commit()
+                        # Ahora, para obtener los valores de nombre y email después de la inserción:
+        mycursor.execute("SELECT nombre FROM Mascota WHERE nombre = %s and propietario = %s", (mascota.nombre,usuario_username))
+        registro_exitoso = mycursor.fetchall()
+    else:
+        #registro_exitoso = False
+        return {"message": "No se ha podido registrar. Ya existe una mascota con el nombre que indicaste"}
 
     mycursor.close()
 

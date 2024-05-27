@@ -45,11 +45,12 @@ export default function CrearMascota() {
         }),
       });
       const data = await response.json();
-      if (response.ok) {
+      if (response.ok && data.message != "No se ha podido registrar. Ya existe una mascota con el nombre que indicaste") {
         console.log('Mascota registrada exitosamente:', data);
         navigate("/Mascotas");
       } else {
         console.error('Error al registrar mascota:', data.message);
+        alert(data.message);
       }
     } catch (error) {
       console.error('Error al enviar solicitud:', error);
