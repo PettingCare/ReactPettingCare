@@ -412,32 +412,6 @@ async def obtener_centros_de_clinica(token: str = Depends(JWTBearer())):
         data.append(zip(columns, [row[0], row[1],row[2]]))
     return data
 
-@app.post("/Clinicas/CrearCentros", tags = {"Clinica"})
-async def registrar_centro(token: str = Depends(JWTBearer()), centro: centro_registroSchema = Body(...)):
-    if is_token_invalid(token):
-        raise HTTPException(status_code=401, detail="El token ya está invalidado")
-    username = decodeJWT(token)
-
-    #Busca la id de la clinica que gestiona el gerente
-    cursor = db.cursor()
-    cursor.execute("""SELECT id FROM Clinica WHERE Gerente=%s""", (username, ))
-    Clinica = cursor.fetchone()
-    idClinica = Clinica[0]
-    cursor.execute("""SELECT max(id) FROM Centro""")
-    max_id = cursor.fetchone()
-    new_id = (max_id[0] + 1)
-    cursor.execute("""Insert into Centro (id, nombre, direccion, idClinica)
-                      VALUES (%s, %s, %s, %s)
-             """,(new_id,centro.nombre,centro.direccion,idClinica))
-    db.commit()
-    cursor.execute("""Select * From Centro Where id = %s """,(new_id,))
-    registro_exitoso = cursor.fetchone()
-    if registro_exitoso:
-        return {"message": "Centro añadido correctamente "}
-    else:
-    # Si no hay resultados, devuelve un mensaje indicando que no se encontraron mascotas
-        return {"message": "No se ha podido registrar"}
-
 
 @app.get('/Clinicas/Veterinarios', tags={"Clinica"})
 async def obtener_veterinarios_centros(token: str = Depends(JWTBearer())):
@@ -633,7 +607,7 @@ async def obtener_citas_veterinario(token: str = Depends(JWTBearer())):
 
 #Eliminación citas veterinario
 # Endpoint para eliminar una cita
-@app.delete("/Veterinario/citas/{id}")
+@app.delete("/Veterinario/citas/{id}" , tags={"Veterinario"})
 async def eliminar_cita(id: int, token: str = Depends(JWTBearer())):
     try:
         # Decodificar el token para obtener el username del usuario
@@ -843,3 +817,44 @@ async def registro_citas(token: str = Depends(JWTBearer()), cita: citas_registro
     mycursor.close()
 
     return {"message": "Cita añadida correctamente"}
+
+
+@app.post("/Clinicas/CrearCentros", tags = {"Clinica"})
+async def registrar_centro(token: str = Depends(JWTBearer()), centro: centro_registroSchema = Body(...)):
+    if is_token_invalid(token):
+        raise HTTPException(status_code=401, detail="El token ya está invalidado")
+    username = decodeJWT(token)
+
+    # Busca la id de la clinica que gestiona el gerente
+    cursor = db.cursor()
+    cursor.execute("""SELECT id FROM Clinica WHERE Gerente=%s""", (username, ))
+    clinica = cursor.fetchone()
+    id_clinica = clinica[0]
+
+    try:
+        # Comienza la transacción
+        cursor.execute("START TRANSACTION")
+
+        # Obtiene el nuevo id para el centro
+        cursor.execute("""SELECT max(id) FROM Centro""")
+        max_id = cursor.fetchone()
+        new_id = (max_id[0] + 1)
+
+        # Inserta el centro en la tabla Centro
+        cursor.execute("""INSERT INTO Centro (id, nombre, direccion, idClinica)
+                          VALUES (%s, %s, %s, %s)""",(new_id, centro.nombre, centro.direccion, id_clinica))
+
+        # Inserta las especies en la tabla Acepta
+        for especie in centro.especies:
+            cursor.execute("""INSERT INTO Acepta (idCentro, nombreEspecie) VALUES (%s, %s)""", (new_id, especie))
+
+        # Confirma la transacción
+        cursor.execute("COMMIT")
+
+        return {"message": "Centro añadido correctamente "}
+    except Exception as e:
+        # Si ocurre algún error, revierte la transacción y devuelve un mensaje de error
+        cursor.execute("ROLLBACK")
+        return {"message": f"No se ha podido registrar: {str(e)}"}
+    finally:
+        cursor.close()

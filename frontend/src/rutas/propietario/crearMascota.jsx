@@ -6,6 +6,8 @@ import Navbar from '../../Componentes/Navbar';
 import { useNavigate } from 'react-router-dom';
 import MascotaDatepicker from '../../Componentes/Datepickers/MascotaDatepicker';
 import SelectEspecieProp from '../../Componentes/Selects/SelectEspecieProp';
+import Alert from '@mui/material/Alert';
+
 import { LuDog } from "react-icons/lu";
 
 export default function CrearMascota() {
@@ -16,12 +18,13 @@ export default function CrearMascota() {
   const [fNacimiento, setFNacimiento] = useState('');
   const [especie, setEspecie] = useState('');
 
+  const [alerta, setAlert] = useState({ severity: '', message: '' });
 
 
   const registroMascotaEP = async (event) => {
     event.preventDefault();
     if (!nombreMascota || !fNacimiento || !especie) {
-      alert('Por favor, complete todos los campos.');
+      setAlert({ severity: 'error', message: 'Por favor, complete todos los campos.' });
       return;
     }
     try {
@@ -45,12 +48,14 @@ export default function CrearMascota() {
         }),
       });
       const data = await response.json();
-      if (response.ok && data.message != "No se ha podido registrar. Ya existe una mascota con el nombre que indicaste") {
+      if (response.ok && data.message !== "No se ha podido registrar. Ya existe una mascota con el nombre que indicaste") {
         console.log('Mascota registrada exitosamente:', data);
+        alert('Mascota registrada exitosamente');
         navigate("/Mascotas");
       } else {
         console.error('Error al registrar mascota:', data.message);
-        alert(data.message);
+        setAlert({ severity: 'error', message: data.message });
+        // alert(data.message);
       }
     } catch (error) {
       console.error('Error al enviar solicitud:', error);
@@ -97,6 +102,9 @@ useEffect(() => {
               <div className="form-box loginMascota">
                 <form onSubmit={registroMascotaEP}>
                   <h1>Nueva Mascota</h1>
+                  {alerta.message && (
+                    <Alert severity={alerta.severity}>{alerta.message}</Alert>
+                  )}
                   <div className="input-boxMascota">
                     <input
                       type="text"
@@ -104,7 +112,7 @@ useEffect(() => {
                       placeholder='Nombre mascota'
                       value={nombreMascota}
                       onChange={(e) => setNombreMascota(e.target.value)}
-                      required
+                      // required
                     />
                     <LuDog className='iconoMascota' />
                   </div>

@@ -3,6 +3,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from pydantic import BaseModel,EmailStr,Field
+from typing import List
+
 Base = declarative_base()
 
 #prueba-------------------------------------------------
@@ -54,11 +56,13 @@ class mascota_registroSchema(BaseModel):
 class centro_registroSchema(BaseModel):
     nombre: str = Field(...)
     direccion: str = Field(...)
+    especies: List[str] = Field(...)
     class Config:
         json_schema_extra = {
             "example": {
-                "nombre": "clinica",
-                "direccion": "calle 24 1-1"
+                "nombre": "nombre clinica",
+                "direccion": "calle 24 1-1",
+                "especies": ["especie1", "especie2", "especie3"]
             }
         }
 
@@ -91,7 +95,6 @@ class citas_registroSchema(BaseModel):
         } 
 
 
-
 class MascotaRequest(BaseModel):
     mascota: str
 
@@ -100,3 +103,4 @@ class EspecieRequest(BaseModel):
 
 class CentroRequest(BaseModel):
     centro: str
+
