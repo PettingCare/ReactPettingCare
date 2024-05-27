@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Navbar from '../../Componentes/Navbar';
@@ -10,6 +10,7 @@ import { FaUserAlt, FaPhoneAlt } from 'react-icons/fa';
 import { IoIosEye, IoIosEyeOff } from 'react-icons/io';
 import { FaUserAstronaut } from 'react-icons/fa6';
 import '../Administrador/CrearClinica.css';
+import SelectEspecieProp from '../../Componentes/Selects/SelectEspecieProp';
 
 const BASE_URL = 'http://localhost:8000';
 
@@ -18,6 +19,7 @@ const CrearCentro = () => {
   const [nombre, setNombre] = useState('');
   const [direccion, setDireccion] = useState('');
   const [message, setMessage] = useState('');
+  const [especie, setEspecie] = useState('');
 
   const registrarCentro = async (event) => {
     event.preventDefault();
@@ -26,7 +28,8 @@ const CrearCentro = () => {
 
     const centro = {
       nombre: nombre,
-      direccion: direccion
+      direccion: direccion,
+      especie: especie
     };
 
     try {
@@ -55,6 +58,30 @@ const CrearCentro = () => {
       setMessage('Error al registrar el centro');
     }
   };
+
+  useEffect(() => {
+    const getEspecies = async () => {
+      const token = localStorage.getItem("token");
+  
+      // Construir la solicitud fetch
+      const requestOptions = {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          nombre: nombre,
+          direccion: direccion,
+          especie: especie,
+        }),
+      };
+      console.log("Solicitud fetch:", requestOptions);
+    };
+  
+    getEspecies();
+  }, 
+  []);
 
   return (
     <>
@@ -99,6 +126,13 @@ const CrearCentro = () => {
                           required
                         />
                         <FaUserAlt className="icono" />
+                      </div>
+
+                      <div className='input-box'>
+                      <SelectEspecieProp
+                        value={especie} 
+                        onChange={(value) => setEspecie(value)}
+                        />
                       </div>
 
                       <button type="submit">Registrar</button>

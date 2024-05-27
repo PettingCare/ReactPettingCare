@@ -430,6 +430,12 @@ async def registrar_centro(token: str = Depends(JWTBearer()), centro: centro_reg
                       VALUES (%s, %s, %s, %s)
              """,(new_id,centro.nombre,centro.direccion,idClinica))
     db.commit()
+
+    cursor.execute("""INSERT INTO Acepta (idCentro, nombreEspecie)
+                      VALUES (%s, %s)
+             """,(new_id,centro.especie))
+    db.commit()
+
     cursor.execute("""Select * From Centro Where id = %s """,(new_id,))
     registro_exitoso = cursor.fetchone()
     if registro_exitoso:
