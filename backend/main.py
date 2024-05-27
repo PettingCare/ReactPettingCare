@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException, Body, Depends
 from pydantic import BaseModel
-from app.modelo import usuario_loginSchema, usuario_registroSchema,mascota_registroSchema,clinica_registroSchema, citas_registroSchema,MascotaRequest,EspecieRequest,CentroRequest
+from app.modelo import usuario_loginSchema, usuario_registroSchema,mascota_registroSchema,clinica_registroSchema, citas_registroSchema,centro_registroSchema,MascotaRequest,EspecieRequest,CentroRequest
 from app.auth.auth_handler import signJWT
 from app.auth.auth_bearer import JWTBearer
 from app.auth.utils import hash_pass, verifica_password,invalidate_token, is_token_invalid
@@ -386,7 +386,7 @@ async def registrar_clinica(clinica: clinica_registroSchema=Body(...)):
 @app.get("/Clinicas/Centros", tags={"Clinica"})
 async def obtener_centros_de_clinica(token: str = Depends(JWTBearer())):
     if is_token_invalid(token):
-         raise HTTPException(status_code=401, detail="El token ya está invalidado")
+        raise HTTPException(status_code=401, detail="El token ya está invalidado")
     username = decodeJWT(token)
 
     cursor = db.cursor()
@@ -404,6 +404,31 @@ async def obtener_centros_de_clinica(token: str = Depends(JWTBearer())):
         data.append(zip(columns, [row[0], row[1],row[2]]))
     return data
 
+@app.post("/Clinicas/CrearCentros", tags = {"Clinica"})
+async def registrar_centro(token: str = Depends(JWTBearer()), centro: centro_registroSchema = Body(...)):
+    if is_token_invalid(token):
+        raise HTTPException(status_code=401, detail="El token ya está invalidado")
+    username = decodeJWT(token)
+
+    #Busca la id de la clinica que gestiona el gerente
+    cursor = db.cursor()
+    cursor.execute("""SELECT id FROM Clinica WHERE Gerente=%s""", (username, ))
+    Clinica = cursor.fetchone()
+    idClinica = Clinica[0]
+    cursor.execute("""SELECT max(id) FROM Centro""")
+    max_id = cursor.fetchone()
+    new_id = (max_id[0] + 1)
+    cursor.execute("""Insert into Centro (id, nombre, direccion, idClinica)
+                      VALUES (%s, %s, %s, %s)
+             """,(new_id,centro.nombre,centro.direccion,idClinica))
+    db.commit()
+    cursor.execute("""Select * From Centro Where id = %s """,(new_id,))
+    registro_exitoso = cursor.fetchone()
+    if registro_exitoso:
+        return {"message": "Centro añadido correctamente "}
+    else:
+    # Si no hay resultados, devuelve un mensaje indicando que no se encontraron mascotas
+        return {"message": "No se ha podido registrar"}
 
 
 @app.get('/Clinicas/Veterinarios', tags={"Clinica"})
