@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 import Sidenav from '../../Componentes/Sidenav/Sidenav';
 import Navbar from '../../Componentes/Navbar';
 import './MiPerfil.css'
@@ -11,7 +7,6 @@ import {AiOutlineMail, AiOutlinePhone} from 'react-icons/ai'
 
 export default function MiPerfil() {
   const BASE_URL = 'http://localhost:8000';
-  const [especies, setEspecies] = useState([]);
   const [username, setUsername] = useState('');
   const [nombre, setNombre] = useState('');
   const [apellidos, setApellidos] = useState('');
@@ -59,7 +54,7 @@ export default function MiPerfil() {
           <h1>Mi perfil</h1>
           <div className="perfil-container">
             <div className="perfil-box">
-              <img width="100px" src="https://robohash.org/propietario"></img>
+              <img width="100px" src="https://robohash.org/propietario" alt="foto de perfil"></img>
               <div>
                 <h3>@{username} </h3>
                 <p className="perfil-nombre">{nombre} {apellidos}</p>

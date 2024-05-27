@@ -31,6 +31,7 @@ const LoginRegistro = () => {
   const togglePasswordVisibility = () => {
     setShowPassword(!passwordVisible);
   }
+  const [alert, setAlert] = useState({ severity: '', message: '' });
 
   useEffect(() => {
     // Verificar si hay un token guardado al cargar la página
@@ -122,6 +123,8 @@ const LoginRegistro = () => {
     } else {
       // Manejar error de inicio de sesión
       console.error('Error al iniciar sesión:', data.message);
+      setAlert({ severity: 'error', message: 'Error al iniciar sesión, Error: '+ data.detail });
+
     }
   };
 
@@ -160,6 +163,8 @@ const LoginRegistro = () => {
 
         const errorData = await response.json();
         console.error('Error en el registro:', errorData.message);
+        setAlert({ severity: 'error', message: 'Error al iniciar sesión, Error: '+ errorData.message });
+
       }
     } catch (error) {
       console.error('Error al realizar la solicitud de registro:', error);
@@ -179,9 +184,12 @@ const LoginRegistro = () => {
         <div className="form-box login">
           <form action="" onSubmit={loginEP}>
             <h1>Iniciar sesion</h1>
+            {alert.message && (
+                    <Alert severity={alert.severity}>{alert.message}</Alert>
+            )}
             <div className="input-box">
               <input type="text" name="username" placeholder='username' required />
-              <IoMdMail  className='icono'/>
+              <FaUserAstronaut  className='icono'/>
             </div>
             <div className="input-box">
               <input type={passwordVisible ? 'text' : 'password'} name="password" placeholder='Contraseña' required />

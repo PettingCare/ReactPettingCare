@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, {useEffect, useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
 import Navbar from '../../Componentes/Navbar';
@@ -12,32 +12,38 @@ const ListadoVeterinarios = () => {
     {
       field: 'nombre',
       headerName: 'Nombre',
-      width: 120
+      width: 120,
+      editable: false
     },
     {
       field: 'apellidos',
       headerName: 'Apellidos',
-      width: 150
+      width: 150,
+      editable: false
     },
     {
       field: 'username',
       headerName: 'Username',
-      width: 100
+      width: 150,
+      editable: false
     },
     {
       field: 'email',
       headerName: 'Email',
-      width: 200
+      width: 200,
+      editable: false
     },
     {
       field: 'telefono',
       headerName: 'Teléfono',
-      width: 110
+      width: 110,
+      editable: false
     },
     {
       field: 'centro',
       headerName: 'Centro',
-      width: 150
+      width: 150,
+      editable: false
     }
   ];
   useEffect(() => {
@@ -62,7 +68,7 @@ const ListadoVeterinarios = () => {
       }
     }
     getVeterinarios()
-    return () => rows
+    // return () => rows
   }, [])
   return (
     <>
@@ -80,6 +86,8 @@ const ListadoVeterinarios = () => {
                 columns={columns}
                 getRowId={(row) => row.username}
                 rowsPerPageOptions={[10]}
+                disableRowSelectionOnClick
+                isCellEditable={() => false}      
               />
             </div>
           </Box>

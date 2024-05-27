@@ -1,7 +1,5 @@
 import React from 'react'
-import Sidenav from '../../Componentes/Sidenav/Sidenav'
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Navbar from '../../Componentes/Navbar';
 import SidenavClinica from '../../Componentes/Sidenav/SidenavClinica';
 

@@ -1,9 +1,9 @@
-import React, { useRef, useEffect, useState } from "react";
-import { FaHospitalUser, FaUsersGear } from "react-icons/fa6";
+import React, { useEffect, useState } from "react";
+import { FaHospitalUser } from "react-icons/fa6";
 import '../../Componentes/Login-Registro/LoginRegistro.css'
 import Box from '@mui/material/Box';
 import Navbar from '../../Componentes/Navbar';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import SidenavAdministrador from '../../Componentes/Sidenav/SidenavAdministrador';
 import './CrearClinica.css'
 

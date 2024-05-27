@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
 import Navbar from '../../Componentes/Navbar';
@@ -45,7 +45,7 @@ const ListadoClinicas = () => {
         }
       }
       getClinicas()
-      return () => rows
+      // return () => rows
     }, []);
     return (
       <>

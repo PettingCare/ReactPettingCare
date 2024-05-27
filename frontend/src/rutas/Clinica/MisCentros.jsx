@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
 import Navbar from '../../Componentes/Navbar';
@@ -55,7 +55,7 @@ export default function MisCentros() {
       <SidenavClinica/>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
       <h1>Mis Centros</h1>
-      <Box height={300}/>
+      <Box height={150}/>
             <Box sx={{ maxWidth: 800, margin: '0 auto', alignItems: 'center',width: '60%' }}>
             <div style={{ height: '100%', width: '100%', minHeight:'100px' }}>
                   <DataGrid

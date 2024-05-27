@@ -1,5 +1,5 @@
-import React, { useRef, useEffect, useState } from "react";
-import { FaHospitalUser, FaUsersGear } from "react-icons/fa6";
+import React, { useState } from "react";
+import { FaHospitalUser } from "react-icons/fa6";
 import { RiLockPasswordFill  } from "react-icons/ri";
 import { IoMdMail } from "react-icons/io";
 import { FaUserAlt,FaPhoneAlt } from "react-icons/fa";

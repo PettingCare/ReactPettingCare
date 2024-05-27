@@ -3,12 +3,10 @@ import './CrearMascota.css';
 import Sidenav from '../../Componentes/Sidenav/Sidenav';
 import Box from '@mui/material/Box';
 import Navbar from '../../Componentes/Navbar';
-import { IoMdMail } from "react-icons/io";
 import { useNavigate } from 'react-router-dom';
 import MascotaDatepicker from '../../Componentes/Datepickers/MascotaDatepicker';
 import SelectEspecieProp from '../../Componentes/Selects/SelectEspecieProp';
 import { LuDog } from "react-icons/lu";
-import dayjs from 'dayjs';
 
 export default function CrearMascota() {
   const BASE_URL = 'http://localhost:8000';
@@ -81,7 +79,9 @@ useEffect(() => {
   };
 
   getEspecies();
-}, []);
+}, 
+// eslint-disable-next-line
+[]);
 
   return (
     <>

@@ -7,7 +7,6 @@ import { useNavigate } from 'react-router-dom';
 import SelectMascotaProp from '../../Componentes/Selects/SelectMascotaProp';
 import SelectCentroProp from '../../Componentes/Selects/SelectCentroProp';
 import SelectVeterinarioProp from '../../Componentes/Selects/SelectVeterinarioProp';
-import MascotaDatepicker from '../../Componentes/Datepickers/MascotaDatepicker';
 import CrearCitaDatepicker from '../../Componentes/Datepickers/CrearCitaDatepicker';
 
 
