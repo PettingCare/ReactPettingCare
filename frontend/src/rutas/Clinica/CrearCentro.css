@@ -1,0 +1,30 @@
+.login-formCentro{
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    min-height: 100vh;
+}
+
+.wrapperCentro{
+    width: 420px;
+    height: 650px;
+    border: 2px solid rgba(0, 0, 0, 0.322);
+    backdrop-filter: blur(30px);
+    border-radius: 15px;
+    color: black;
+    display: flex;
+    align-items: start;
+    /* align-items: start; */
+    overflow: hidden;
+    transition: height .2s ease;
+}
+
+.wrapperCentro .form-box-loginCentro{
+    width: 100%;
+    padding: 40px;
+}
+
+
+  button[type='submit'] {
+    margin-top: 170px;
+  }

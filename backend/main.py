@@ -819,6 +819,7 @@ async def registro_citas(token: str = Depends(JWTBearer()), cita: citas_registro
     return {"message": "Cita añadida correctamente"}
 
 
+
 @app.post("/Clinicas/CrearCentros", tags = {"Clinica"})
 async def registrar_centro(token: str = Depends(JWTBearer()), centro: centro_registroSchema = Body(...)):
     if is_token_invalid(token):

@@ -1,37 +1,39 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Navbar from '../../Componentes/Navbar';
 import SidenavClinica from '../../Componentes/Sidenav/SidenavClinica';
 import { FaHospitalUser } from 'react-icons/fa6';
-import { RiLockPasswordFill } from 'react-icons/ri';
-import { IoMdMail } from 'react-icons/io';
-import { FaUserAlt, FaPhoneAlt } from 'react-icons/fa';
-import { IoIosEye, IoIosEyeOff } from 'react-icons/io';
-import { FaUserAstronaut } from 'react-icons/fa6';
-import '../Administrador/CrearClinica.css';
-import SelectEspecieProp from '../../Componentes/Selects/SelectEspecieProp';
+import './CrearCentro.css';
+import SelectAceptaEspecies from '../../Componentes/Selects/SelectAceptaEspecies';
+import FmdGoodIcon from '@mui/icons-material/FmdGood';
+import Alert from '@mui/material/Alert';
+
 
 const BASE_URL = 'http://localhost:8000';
 
-const CrearCentro = () => {
+export default function CrearCentro() {
   const navigate = useNavigate();
   const [nombre, setNombre] = useState('');
   const [direccion, setDireccion] = useState('');
   const [message, setMessage] = useState('');
-  const [especie, setEspecie] = useState('');
+  const [especiesAceptadas, setEspeciesAceptadas] = useState('');
+  const [alerta, setAlert] = useState({ severity: '', message: '' });
 
-  const registrarCentro = async (event) => {
+  const registrarCentroEP = async (event) => {
     event.preventDefault();
     const token = JSON.parse(localStorage.getItem('token'));
     const accessToken = token.access_token;
 
-    const centro = {
-      nombre: nombre,
-      direccion: direccion,
-      especie: especie
-    };
-
+    if (!nombre || !direccion || especiesAceptadas==0) {
+      setAlert({ severity: 'error', message: 'Por favor, complete todos los campos.' });
+      console.log(message)
+      return;
+    }
+    // Unir los arrays de especies aceptadas en uno solo
+    const especiesUnificadas = especiesAceptadas.flat();
+    // console.log(especiesUnificadas)
+  
     try {
       const response = await fetch(`${BASE_URL}/Clinicas/CrearCentros`, {
         method: 'POST',
@@ -39,8 +41,15 @@ const CrearCentro = () => {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${accessToken}`
         },
-        body: JSON.stringify(centro)
+        body: JSON.stringify({
+          nombre: nombre,
+          direccion: direccion,
+          especies: especiesUnificadas,
+        }),
       });
+
+      console.log(especiesUnificadas)
+
 
       const data = await response.json();
 
@@ -51,106 +60,71 @@ const CrearCentro = () => {
         alert('Centro registrado exitosamente.');
         navigate('/Clinica/MisCentros');
       } else {
-        setMessage(data.detail || 'Error al registrar el centro');
+        // setMessage(data.detail || 'Error al registrar el centro');
+        setAlert({ severity: 'error', message: 'Error al registrar el centro' });
+
       }
     } catch (error) {
       console.error('Error:', error);
-      setMessage('Error al registrar el centro');
+      setAlert({ severity: 'error', message: 'Error al registrar el centro'  });
+
+      // setMessage('Error al registrar el centro');
     }
   };
 
-  useEffect(() => {
-    const getEspecies = async () => {
-      const token = localStorage.getItem("token");
-  
-      // Construir la solicitud fetch
-      const requestOptions = {
-        method: 'POST',
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          nombre: nombre,
-          direccion: direccion,
-          especie: especie,
-        }),
-      };
-      console.log("Solicitud fetch:", requestOptions);
-    };
-  
-    getEspecies();
-  }, 
-  []);
+
 
   return (
     <>
       <Navbar />
-      <Box height={40} />
+      <Box height={80} />
       <Box sx={{ display: 'flex' }}>
         <SidenavClinica />
-        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-          <h1>Registro de Centro</h1>
-          <Box height={300}>
-            <Box
-              sx={{
-                maxWidth: 800,
-                margin: '0 auto',
-                alignItems: 'center',
-                width: '60%',
-              }}
-            >
-              <div style={{ height: '100%', width: '100%', minHeight: '100px' }}>
-                <div className="signup-form">
-                  <div className="form-box registro">
-                    <form action="" onSubmit={registrarCentro}>
-                      <div className="input-box">
-                        <input
+        <Box height={200} />
+        <Box sx={{ maxWidth: 600, margin: '0 auto', alignItems: 'center' }}>
+          <div className="login-formCentro">
+            <div className={"wrapperCentro"}>
+              <div className="form-box-loginCentro">
+                <form onSubmit={registrarCentroEP}>
+                <h1>Registro de Centro</h1>
+                  {alerta.message && (
+                    <Alert severity={alerta.severity}>{alerta.message}</Alert>
+                  )}
+                  <div className="input-box">
+                  <input
                           type="text"
                           name="nombre"
                           placeholder="Nombre del Centro"
                           value={nombre}
                           onChange={(e) => setNombre(e.target.value)}
-                          required
+                          // required
                         />
                         <FaHospitalUser className="icono" />
-                      </div>
-
-                      <div className="input-box">
+                  </div>
+                  <div className="input-box">
                         <input
                           type="text"
                           name="direccion"
                           placeholder="Dirección"
                           value={direccion}
                           onChange={(e) => setDireccion(e.target.value)}
-                          required
+                          // required
                         />
-                        <FaUserAlt className="icono" />
-                      </div>
-
-                      <div className='input-box'>
-                      <SelectEspecieProp
-                        value={especie} 
-                        onChange={(value) => setEspecie(value)}
-                        />
-                      </div>
-
-                      <button type="submit">Registrar</button>
-                    </form>
-                    {message && (
-                      <div className="message">
-                        {message}
-                      </div>
-                    )}
+                        <FmdGoodIcon className="icono" />
                   </div>
-                </div>
+                  <div className='input-box'>
+                      <SelectAceptaEspecies
+                         value={especiesAceptadas} 
+                         onChange={(value) => setEspeciesAceptadas(value)}
+                        />
+                  </div>
+                  <button type='submit'>Registrar centro</button>
+                </form>
               </div>
-            </Box>
-          </Box>
+            </div>
+          </div>
         </Box>
       </Box>
     </>
   );
 }
-
-export default CrearCentro;
