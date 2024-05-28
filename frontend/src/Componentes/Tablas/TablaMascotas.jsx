@@ -10,25 +10,25 @@ const TablaMascotas = () => {
     {
       field: 'idMascota',
       headerName: 'ID',
-      width: 100,
+      width: 150,
       editable: false
     },
     {
       field: 'nombre',
       headerName: 'Mascota',
-      width: 220,
+      width: 320,
       editable: false
     },
     {
       field: 'especie',
       headerName: 'Especie',
-      width: 220,
+      width: 250,
       editable: false
     },
     {
       field: 'nacimiento',
       headerName: 'Nacimiento',
-      width: 220,
+      width: 250,
       editable: false
     },
 

@@ -118,7 +118,7 @@ export default function CrearCentro() {
                          onChange={(value) => setEspeciesAceptadas(value)}
                         />
                   </div>
-                  <button type='submit'>Registrar centro</button>
+                  <button type='submit' className="btn-submit-centro">Registrar centro</button>
                 </form>
               </div>
             </div>

@@ -14,6 +14,7 @@ export default function InicioAdministrador() {
         <h1>Inicio</h1>
         <Box height={300}/>
             <Box sx={{ maxWidth: 600, margin: '0 auto', alignItems: 'center' }}>
+
             </Box>
       </Box>
     </Box>

@@ -16,13 +16,12 @@ export default function Mascotas() {
         <Sidenav/>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <h1>Mascotas</h1>
-        <Box height={300}>
-          <Box sx={{ maxWidth: 800, margin: '0 auto', alignItems: 'center', width: '60%'}}>
+        <Box height={75}/>
+          <Box sx={{ maxWidth: '40vw', margin: '0 auto', alignItems: 'center', width: '60%'}}>
             <TablaMascotas/>
           </Box>
         </Box>
       </Box>
-    </Box>
     </>
   )
 }

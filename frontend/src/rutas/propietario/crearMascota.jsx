@@ -128,7 +128,7 @@ useEffect(() => {
                   onChange={(value) => setEspecie(value)}
                   />
                   </div> 
-                  <button type='submit'>Registrar mascota</button>
+                  <button type='submit' className="btn-submit-Masc">Registrar mascota</button>
                 </form>
               </div>
             </div>

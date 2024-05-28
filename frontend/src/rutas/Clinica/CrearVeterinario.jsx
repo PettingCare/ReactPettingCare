@@ -92,23 +92,18 @@ const CrearVeterinario = () =>
       <Box sx={{ display: "flex" }}>
         <SidenavClinica />
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-          <h1>Registro de Veterinario</h1>
-          <Box height={300}>
+          <Box height={200}/>
             <Box
               sx={{
-                maxWidth: 800,
+                maxWidth: 600,
                 margin: "0 auto",
                 alignItems: "center",
-                width: "60%",
               }}
             >
-              <div
-                style={{ height: "100%", width: "100%", minHeight: "100px" }}
-              >
                 <div className="signup-form">
                   <div className="form-box registro">
                     <form action="" onSubmit={registrarVeterinario}>
-
+                    <h1>Registro de Veterinario</h1>
                     <div className="input-box">
                         <div className='centro'>
                           <label>Centro</label>
@@ -200,15 +195,13 @@ const CrearVeterinario = () =>
                           {isError ? "Numero incorrecto" : "+34 " + telefono}
                         </h6>
                       </div>
-                      <button type="submit">Registrar</button>
+                      <button type='submit' className="btn-submit-Vet">Registrar</button>
                     </form>
                   </div>
                 </div>
-              </div>
             </Box>
           </Box>
         </Box>
-      </Box>
     </>
   );
 }

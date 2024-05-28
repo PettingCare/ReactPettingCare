@@ -25,6 +25,33 @@
 }
 
 
-  button[type='submit'] {
-    margin-top: 170px;
-  }
+.btn-submit-centro {
+  margin-top: 170px;
+  background-color: #007bff; 
+  color: white; 
+  border: none; 
+  padding: 10px 20px;
+  border-radius: 5px; 
+  cursor: pointer; 
+  font-size: 16px; 
+}
+
+.btn-submit-centro:hover {
+  background-color: #0056b3; 
+}
+
+
+.btn-submit-Vet{
+  background-color: #007bff; 
+  color: white; 
+  border: none; 
+  padding: 10px 20px;
+  border-radius: 5px; 
+  cursor: pointer; 
+  font-size: 16px; 
+}
+
+
+.btn-submit-Vet:hover {
+  background-color: #0056b3; 
+}

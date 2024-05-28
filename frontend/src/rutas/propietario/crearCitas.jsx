@@ -196,7 +196,7 @@ export default function CrearCitas() {
                   </div>
                   )}
                   <Box height={30} />
-                  <button type='submit'>Registrar cita</button>
+                  <button type='submit' className="btn-submit-Cita">Registrar cita</button>
                 </form>
               </div>
             </div>

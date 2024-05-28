@@ -12,12 +12,12 @@ export default function MisCentros() {
     {
       field: 'nombre',
       headerName: 'Nombre',
-      width: 380
+      width: 660
     },
     {
       field: 'direccion',
       headerName: 'Direccion',
-      width: 380
+      width: 660
     }
   ];
   useEffect(() => {
@@ -55,8 +55,8 @@ export default function MisCentros() {
       <SidenavClinica/>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
       <h1>Mis Centros</h1>
-      <Box height={150}/>
-            <Box sx={{ maxWidth: 800, margin: '0 auto', alignItems: 'center',width: '60%' }}>
+      <Box height={75}/>
+            <Box sx={{ maxWidth: '60vw', margin: '0 auto', alignItems: 'center',width: '60%' }}>
             <div style={{ height: '100%', width: '100%', minHeight:'100px' }}>
                   <DataGrid
                     rows={rows}

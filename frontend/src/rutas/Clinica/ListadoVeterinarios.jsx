@@ -12,13 +12,13 @@ const ListadoVeterinarios = () => {
     {
       field: 'nombre',
       headerName: 'Nombre',
-      width: 120,
+      width: 200,
       editable: false
     },
     {
       field: 'apellidos',
       headerName: 'Apellidos',
-      width: 150,
+      width: 200,
       editable: false
     },
     {
@@ -30,19 +30,19 @@ const ListadoVeterinarios = () => {
     {
       field: 'email',
       headerName: 'Email',
-      width: 200,
+      width: 250,
       editable: false
     },
     {
       field: 'telefono',
       headerName: 'Teléfono',
-      width: 110,
+      width: 150,
       editable: false
     },
     {
       field: 'centro',
       headerName: 'Centro',
-      width: 150,
+      width: 370,
       editable: false
     }
   ];
@@ -78,8 +78,8 @@ const ListadoVeterinarios = () => {
       <SidenavClinica/>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <h1>Listado de Veterinarios</h1>
-        <Box height={300}>
-          <Box sx={{ maxWidth: 1000, margin: '0 auto', alignItems: 'center', width: '60%'}}>
+        <Box height={75}/>
+          <Box sx={{ maxWidth: '80vw', margin: '0 auto', alignItems: 'center', width: '60%'}}>
             <div style={{ height: '100%', width: '100%', minHeight:'100px' }}>
               <DataGrid
                 rows={rows}
@@ -93,7 +93,6 @@ const ListadoVeterinarios = () => {
           </Box>
         </Box>
       </Box>
-    </Box>
     </>
   )
 }
