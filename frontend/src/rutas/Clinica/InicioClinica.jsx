@@ -10,6 +10,11 @@ import { CardActionArea } from '@mui/material';
 import soporteimg from '../../Componentes/Assets/soporteimg.png';
 import Grid from '@mui/material/Grid';
 import { useNavigate } from 'react-router-dom';
+import imgMisCentros from '../../Componentes/Assets/imgMisCentros.png'
+import imgNuevoCentro from '../../Componentes/Assets/imgNuevoCentro.png'
+import imgListadoVeterinarios from '../../Componentes/Assets/imgListadoVeterinarios.png'
+import imgNuevoVeterinario from '../../Componentes/Assets/imgNuevoVeterinario.png'
+
 
 export default function InicioClinica()  {
 
@@ -45,7 +50,7 @@ export default function InicioClinica()  {
                     <CardMedia
                       component="img"
                       height="300"
-                      image={soporteimg}
+                      image={imgMisCentros}
                       alt="soporte"
                     />
                     <CardContent>
@@ -66,7 +71,7 @@ export default function InicioClinica()  {
                     <CardMedia
                       component="img"
                       height="300"
-                      image={soporteimg}
+                      image={imgNuevoCentro}
                       alt="soporte"
                     />
                     <CardContent>
@@ -87,7 +92,7 @@ export default function InicioClinica()  {
                     <CardMedia
                       component="img"
                       height="300"
-                      image={soporteimg}
+                      image={imgListadoVeterinarios}
                       alt="soporte"
                     />
                     <CardContent>
@@ -108,7 +113,7 @@ export default function InicioClinica()  {
                     <CardMedia
                       component="img"
                       height="300"
-                      image={soporteimg}
+                      image={imgNuevoVeterinario}
                       alt="soporte"
                     />
                     <CardContent>
