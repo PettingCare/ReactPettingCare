@@ -161,7 +161,7 @@ export default function Navbar() {
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' } }}
           >
-            Petting care
+            Petting Care
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>

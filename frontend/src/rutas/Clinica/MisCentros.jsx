@@ -12,12 +12,12 @@ export default function MisCentros() {
     {
       field: 'nombre',
       headerName: 'Nombre',
-      width: 660
+      width: 200
     },
     {
       field: 'direccion',
       headerName: 'Direccion',
-      width: 660
+      width: 400
     }
   ];
   useEffect(() => {

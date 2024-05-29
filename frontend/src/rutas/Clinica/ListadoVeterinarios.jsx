@@ -12,13 +12,13 @@ const ListadoVeterinarios = () => {
     {
       field: 'nombre',
       headerName: 'Nombre',
-      width: 200,
+      width: 150,
       editable: false
     },
     {
       field: 'apellidos',
       headerName: 'Apellidos',
-      width: 200,
+      width: 180,
       editable: false
     },
     {
@@ -42,7 +42,7 @@ const ListadoVeterinarios = () => {
     {
       field: 'centro',
       headerName: 'Centro',
-      width: 370,
+      width: 280,
       editable: false
     }
   ];
@@ -79,7 +79,7 @@ const ListadoVeterinarios = () => {
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <h1>Listado de Veterinarios</h1>
         <Box height={75}/>
-          <Box sx={{ maxWidth: '80vw', margin: '0 auto', alignItems: 'center', width: '60%'}}>
+          <Box sx={{ maxWidth: '80vw', margin: '0 auto', alignItems: 'center', width: '79%'}}>
             <div style={{ height: '100%', width: '100%', minHeight:'100px' }}>
               <DataGrid
                 rows={rows}
