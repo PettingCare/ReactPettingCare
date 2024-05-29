@@ -59,7 +59,7 @@ const Citas = () => {
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
           <h1>Mis Citas</h1>
           <Box height={50} />
-          <Box sx={{ maxWidth: '80vw', margin: '0 auto', alignItems: 'center',width: '60%' }}>
+          <Box sx={{ margin: '0 auto', alignItems: 'center',width: '100%' }}>
 
           <div className='grid-citas'>
             {loading ? (

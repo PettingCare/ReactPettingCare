@@ -17,7 +17,7 @@ export default function Mascotas() {
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <h1>Mascotas</h1>
         <Box height={75}/>
-          <Box sx={{ maxWidth: '40vw', margin: '0 auto', alignItems: 'center', width: '60%'}}>
+          <Box sx={{ margin: '0 auto', alignItems: 'center', width: '100%'}}>
             <TablaMascotas/>
           </Box>
         </Box>
